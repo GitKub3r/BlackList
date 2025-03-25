@@ -1,0 +1,27 @@
+.discord-button-container {
+  width: 100%;
+  margin-bottom: var(--size-xxlarge);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#discord-button {
+  padding: 0;
+  background-color: var(--color-discord);
+  border: 1px solid var(--color-discord);
+
+  width: 35%;
+}
+
+#discord-button:hover {
+  background-color: var(--color-discord-hover);
+}
+
+#discord-button a {
+  width: 100%;
+  color: white;
+  padding: var(--size-small);
+  display: block;
+}

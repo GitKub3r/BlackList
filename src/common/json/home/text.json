@@ -1,0 +1,25 @@
+{
+  "first": {
+    "title": "Welcome to BlackList",
+    "subtitle": "League community app",
+    "description": "Introducing a new tool for League of Legends Custom Gamemodes. Dive into more details in our <a href='/about' data-discover='true'>about</a> page.",
+    "alt": "blacklist-logo",
+    "image": "BlackList-Logo.png"
+  },
+
+  "second": {
+    "title": "Become a part of the community",
+    "subtitle": "Hoster Accounts",
+    "description": "To access all of BlackList tools, you need a hoster account given by the BlackList team. Find more information in our <a href='/about' data-discover='true'>about</a> page.",
+    "alt": "aram-map",
+    "image": "Lolcgm.png"
+  },
+
+  "third": {
+    "title": "Join us on Discord",
+    "subtitle": "Community Server",
+    "description": "Join League of Legends Custom Gamemodes community on Discord. Find more information in our <a href='/about' data-discover='true'>about</a> page.",
+    "alt": "discord-logo",
+    "image": "Discord.webp"
+  }
+}
