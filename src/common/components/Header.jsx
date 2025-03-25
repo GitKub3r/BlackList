@@ -6,12 +6,10 @@ export const Header = ({ links }) => {
 
   return (
     <header className="main-header">
-      <div className="main-header-home-link">
-        <Link to={firstItem.url}>
-          <img src={`/assets/icons/${firstItem.icon}`} alt="" />
-          <h1>{firstItem.name}</h1>
-        </Link>
-      </div>
+      <Link to={firstItem.url} className="main-header-home-link">
+        <img src={`/assets/icons/${firstItem.icon}`} alt="" />
+        <h1>{firstItem.name}</h1>
+      </Link>
       <nav className="main-header-navbar">
         <ul>
           {restItems.map((link, index) => (

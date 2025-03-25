@@ -1,13 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Protest+Guerrilla&display=swap");
-
 header.main-header {
-  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--size-medium);
   padding: var(--size-small) var(--size-large);
-
   background-color: var(--color-header);
-
-  display: flex;
-  justify-content: space-between;
 }
 
 header.main-header img {
@@ -16,7 +13,6 @@ header.main-header img {
 
 .main-header-home-link h1 {
   color: var(--color-text-alt);
-
   font-family: "Protest Guerrilla", "Segoe UI", Tahoma, Geneva, Verdana,
     sans-serif;
   font-size: calc(var(--size-xlarge) * 1.25);
@@ -34,6 +30,8 @@ nav.main-header-navbar {
 }
 
 nav.main-header-navbar ul {
+  display: flex;
+  justify-content: space-between;
   gap: var(--size-medium);
 }
 
@@ -43,35 +41,33 @@ nav.main-header-navbar a {
 
 @media (max-width: 750px) {
   body {
-    padding-bottom: 75px;
+    padding-bottom: 60px;
   }
+
   .main-header-home-link {
-    padding: 0 var(--size-large);
+    display: flex;
+    justify-content: center;
+    padding: var(--size-medium);
   }
 
   header.main-header {
-    position: fixed;
-    top: auto;
-    left: 0;
-    bottom: 0;
-
-    z-index: 1000;
+    display: flex;
+    justify-content: center;
     padding: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
 
-    align-items: center;
+  nav.main-header-navbar {
+    flex-grow: 0;
   }
 
   nav.main-header-navbar ul {
-    width: 100%;
-    gap: 0;
-  }
-
-  nav.main-header-navbar ul li:last-child a {
-    border: none;
-  }
-
-  nav.main-header-navbar ul li:first-child a {
-    border-left: 1px solid var(--color-text-alt);
+    display: flex;
+    justify-content: space-evenly;
   }
 
   nav.main-header-navbar li {
@@ -79,13 +75,10 @@ nav.main-header-navbar a {
   }
 
   nav.main-header-navbar li a {
-    width: 100%;
-    padding: var(--size-medium);
-
-    border-right: 1px solid var(--color-text-alt);
-
     display: flex;
     justify-content: center;
+    padding: var(--size-medium);
+    border: none;
   }
 
   nav.main-header-navbar li:hover {
@@ -106,5 +99,9 @@ nav.main-header-navbar a {
 
   header.main-header nav a::after {
     width: 0;
+  }
+
+  .main-header-home-link {
+    justify-self: center;
   }
 }

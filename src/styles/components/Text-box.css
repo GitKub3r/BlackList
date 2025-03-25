@@ -1,4 +1,4 @@
-.image-box {
+.text-box {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -6,52 +6,45 @@
   gap: var(--size-xxlarge);
 }
 
-.image-box.reversed {
+.text-box.reversed {
   flex-direction: row-reverse;
   text-align: right;
 }
 
-.image-box .text-section {
+.text-box .text-section {
   width: 50%;
 }
 
-.image-box .text-section h1 {
+.text-box .text-section h1 {
   font-size: var(--size-xxlarge);
 }
 
-.image-box .text-section h2 {
+.text-box .text-section h2 {
   font-size: var(--size-large);
   color: var(--color-text-muted);
 }
 
-.image-box .text-section p {
+.text-box .text-section p {
   font-size: var(--size-default);
   font-weight: 400;
   margin-top: var(--size-xsmall);
 }
 
-.image-box img {
-  width: fit-content;
-  height: var(--image-default);
-  border-radius: var(--size-small);
-}
-
-.image-box.fade-in .text-section > * {
+.text-box.fade-in .text-section > * {
   opacity: 0;
   animation: fade-in 0.5s ease-in-out forwards;
 }
 
-.image-box.fade-in .text-section > *:nth-child(0) {
+.text-box.fade-in .text-section > *:nth-child(1) {
   animation-delay: 0s;
 }
 
-.image-box.fade-in .text-section > *:nth-child(1) {
+.text-box.fade-in .text-section > *:nth-child(2) {
   animation-delay: 0.25s;
 }
 
-.image-box.fade-in img {
-  animation: fade-in 0.5s ease-in-out forwards;
-  animation-delay: 0.45s;
+.text-box.fade-in .text-section > *:nth-child(3) {
+  animation-delay: 0.35s;
 }
 
 @keyframes fade-in {
@@ -65,12 +58,8 @@
   }
 }
 
-@media (max-width: 525px) {
-  .image-box img {
-    display: none;
-  }
-
-  .image-box .text-section {
+@media (max-width: 750px) {
+  .text-box .text-section {
     text-align: center;
     width: 100%;
   }

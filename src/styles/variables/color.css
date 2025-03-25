@@ -2,15 +2,21 @@
   --color-bg: #f5f5f5;
   --color-bg-alt: #000000;
   --color-text: #121212;
+  --color-text-alt: #ffffff;
   --color-text-muted: #3a3a3a;
   --color-text-muted-alt: #939393;
-  --color-text-alt: #ffffff;
-  --color-border: #cfcfcf;
+
   --color-accent: #1a1a1a;
   --color-danger: #d32f2f;
 
   --color-header: #000000;
-  --color-footer: #d6d6d6;
+  --color-footer: #000000;
+
+  --color-button: #121212;
+  --color-button-hover: #282828;
+
+  --color-input-border: #565656;
+  --color-input-border-focus: #000000;
 
   --color-discord: #5f72b4;
   --color-discord-hover: #506098;

@@ -1,0 +1,31 @@
+{
+  "first": {
+    "title": "What is BlackList",
+    "subtitle": "A LOLCGM tool",
+    "description": "BlackList is a <b>community tool</b> designed to ban and research players in the LOLCGM community. It is a powerful tool to keep track of <b>disruptive players</b>, their behavior and their history."
+  },
+
+  "second": {
+    "title": "How to use BlackList",
+    "subtitle": "An easy guide",
+    "description": "BlackList is a <b>easy to use</b> tool that allows you to ban, modify, delete and search players. It has a very intuitive design that makes it <b>easy and fast</b>. To ensure the tool is used properly, please read the <b>guidelines</b>."
+  },
+
+  "third": {
+    "title": "Hoster Accounts Explained",
+    "subtitle": "Learn the basics",
+    "description": "These accounts are the only ones that <b>allow players</b> to fully use all of BlackList tools. This accounts are <b>exclusive</b> and are only given to <b>trusted members</b> of the community."
+  },
+
+  "fourth": {
+    "title": "How to get Hoster Accounts",
+    "subtitle": "Unleash the power",
+    "description": "To get a Hoster Account, you must be a <b>trusted member</b> of the community. You must have a <b>good reputation</b> and have a good behavior. If you think you are eligible, please contact the us <a href='mailto: blacklistlolcgm@gmail.com'>here</a>."
+  },
+
+  "fifth": {
+    "title": "BlackList Usage Guidelines",
+    "subtitle": "Instructions",
+    "description": "Since BlackList is a <b>community tool</b>, it is important to follow the guidelines to ensure the tool is used. Any misuse of the tool will result in <b>permanent ban</b> from the application."
+  }
+}

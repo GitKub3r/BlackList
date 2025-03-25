@@ -9,14 +9,13 @@ export const ImageBox = ({
   reversed,
 }) => {
   return (
-    <div className={`image-box` + (reversed ? " reversed" : "")}>
-      <div className="text-section">
+    <div className={`image-box fade-in` + (reversed ? " reversed" : "")}>
+      <div className="text-section fade-in">
         <h1>{title}</h1>
         <h2>{subtitle}</h2>
         <p dangerouslySetInnerHTML={{ __html: description }}></p>
       </div>
-
-      <img src={`assets/images/${image}`} alt={alt} />
+      <img src={`assets/images/${image}`} alt={alt} className="fade-in" />
     </div>
   );
 };
