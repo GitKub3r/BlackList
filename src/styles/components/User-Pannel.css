@@ -1,30 +1,37 @@
 .user-pannel {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  width: 100%;
+  margin: 0;
   padding: var(--size-default);
+
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 
   border: 1px solid var(--color-accent);
   border-radius: var(--border-radius-default);
+  gap: 0;
+}
+
+.user-pannel div:first-child {
+  width: 100%;
+}
+
+.user-pannel h1 {
+  width: 100%;
+  text-align: left;
 }
 
 .user-pannel hr {
   margin: var(--size-small) 0;
 }
 
-.user-pannel-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Two equal columns */
-  gap: var(--size-small); /* Add spacing between inputs */
+.user-pannel .input-container:nth-last-child(2) {
+  grid-column: 1 / -1;
 }
 
 .user-pannel button {
-  align-self: stretch; /* Makes the button take up the full width */
-  margin-top: var(--size-large);
-}
-
-.user-pannel .input-container:nth-last-child(1) {
   grid-column: 1 / -1;
+  margin-top: auto;
 }
 
 @media (max-width: 1100px) {

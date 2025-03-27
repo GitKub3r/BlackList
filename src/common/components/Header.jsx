@@ -2,12 +2,21 @@ import "../../styles/components/Header.css";
 import { Link } from "react-router";
 import navlinks from "../json/header/nav-links.json";
 import { useAuth } from "../auth/AuthContext";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
   const { isAuthenticated } = useAuth();
-  const links = isAuthenticated
-    ? navlinks.logged.navLinks
-    : navlinks.unlogged.navLinks;
+  const [links, setLinks] = useState(navlinks.unlogged.navLinks); // Default to unlogged navlinks
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && isAuthenticated) {
+      setLinks(navlinks.logged.navLinks);
+    } else {
+      setLinks(navlinks.unlogged.navLinks);
+    }
+  }, [isAuthenticated]);
+
   const [firstItem, ...restItems] = links;
 
   return (

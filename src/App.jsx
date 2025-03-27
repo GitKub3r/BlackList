@@ -7,6 +7,7 @@ import { NotFound } from "./common/pages/NotFound";
 import { About } from "./common/pages/About";
 import { Login } from "./common/pages/Login";
 import { Account } from "./common/pages/Account";
+import { Database } from "./common/pages/Database";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/database" element={<Database />} />
       </Routes>
 
       <Footer />
