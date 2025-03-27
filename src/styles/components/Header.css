@@ -87,6 +87,7 @@ nav.main-header-navbar a {
 
   header.main-header img {
     display: block;
+    width: var(--image-xsmall);
   }
 
   .main-header-home-link h1 {

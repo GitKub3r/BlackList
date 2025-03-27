@@ -1,5 +1,3 @@
-import "../../../styles/components/Login-Input.css";
-
 export const LoginInput = ({ label, type, name, id }) => {
   const handleChange = (e) => {
     const input = e.target;
@@ -11,7 +9,7 @@ export const LoginInput = ({ label, type, name, id }) => {
     label.classList.remove("error");
   };
   return (
-    <div className="login-input-container">
+    <div className="input-container">
       <label htmlFor={id}>{label}</label>
       <input type={type} name={name} id={id} onChange={handleChange} />
     </div>

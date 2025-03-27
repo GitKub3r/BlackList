@@ -1,0 +1,52 @@
+.user-pannel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: var(--size-default);
+
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius-default);
+}
+
+.user-pannel hr {
+  margin: var(--size-small) 0;
+}
+
+.user-pannel-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: var(--size-small); /* Add spacing between inputs */
+}
+
+.user-pannel button {
+  align-self: stretch; /* Makes the button take up the full width */
+  margin-top: var(--size-large);
+}
+
+.user-pannel .input-container:nth-last-child(1) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 1100px) {
+  .user-pannel {
+    width: 100%;
+    flex-grow: 0;
+    gap: var(--size-medium);
+  }
+
+  .user-pannel button {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 750px) {
+  .user-pannel {
+    width: 100%;
+    flex-grow: 0;
+    gap: var(--size-medium);
+  }
+
+  .user-pannel button {
+    margin-top: 0;
+  }
+}

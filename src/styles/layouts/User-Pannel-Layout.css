@@ -1,0 +1,11 @@
+.user-pannel-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--size-default);
+}
+
+@media (max-width: 750px) {
+  .user-pannel-layout {
+    grid-template-columns: 1fr;
+  }
+}

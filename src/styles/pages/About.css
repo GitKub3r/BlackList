@@ -13,7 +13,7 @@
   font-weight: 400;
 }
 
-.wrap-layout:nth-last-child(3) {
+.about-page .wrap-layout:nth-last-child(3) {
   padding-bottom: 0;
   margin: var(--size-default) 0;
 }

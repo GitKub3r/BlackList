@@ -1,7 +1,13 @@
 import "../../styles/components/Header.css";
 import { Link } from "react-router";
+import navlinks from "../json/header/nav-links.json";
+import { useAuth } from "../auth/AuthContext";
 
-export const Header = ({ links }) => {
+export const Header = () => {
+  const { isAuthenticated } = useAuth();
+  const links = isAuthenticated
+    ? navlinks.logged.navLinks
+    : navlinks.unlogged.navLinks;
   const [firstItem, ...restItems] = links;
 
   return (

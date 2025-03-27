@@ -1,0 +1,46 @@
+{
+  "logged": {
+    "navLinks": [
+      {
+        "name": "BlackList",
+        "url": "/",
+        "icon": "home.svg"
+      },
+      {
+        "name": "About",
+        "url": "/about",
+        "icon": "info.svg"
+      },
+      {
+        "name": "Database",
+        "url": "/database",
+        "icon": "db.svg"
+      },
+      {
+        "name": "Account",
+        "url": "/account",
+        "icon": "account.svg"
+      }
+    ]
+  },
+
+  "unlogged": {
+    "navLinks": [
+      {
+        "name": "BlackList",
+        "url": "/",
+        "icon": "home.svg"
+      },
+      {
+        "name": "About",
+        "url": "/about",
+        "icon": "info.svg"
+      },
+      {
+        "name": "Login",
+        "url": "/login",
+        "icon": "login.svg"
+      }
+    ]
+  }
+}
