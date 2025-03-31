@@ -1,0 +1,26 @@
+.database-page {
+    width: 100%;
+    padding: var(--size-xxlarge);
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.blacklist-container {
+    width: 75%;
+    height: auto;
+
+    padding: var(--size-default);
+
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius-default);
+
+    background-color: var(--color-bg);
+}
+
+#username-blacklist-input {
+    border-color: var(--color-accent);
+    background-color: var(--color-bg);
+}

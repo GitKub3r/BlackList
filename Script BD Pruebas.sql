@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-03-2025 a las 12:27:26
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 28-03-2025 a las 23:43:32
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,51 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `blacklist`
+-- Base de datos: `blacklist_test`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `bans`
+--
+
+CREATE TABLE `bans` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `champion_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `champions`
+--
+
+CREATE TABLE `champions` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `champions`
+--
+
+INSERT INTO `champions` (`id`, `name`) VALUES
+(1, 'Aatrox'),
+(2, 'Ahri'),
+(3, 'Akali'),
+(4, 'Akshan'),
+(5, 'Alistar'),
+(6, 'Ambessa'),
+(7, 'Amumu'),
+(8, 'Anivia'),
+(9, 'Annie'),
+(10, 'Aphelios'),
+(11, 'Ashe'),
+(12, 'Aurelion Sol'),
+(13, 'Aurora'),
+(14, 'Azir');
 
 -- --------------------------------------------------------
 
@@ -95,13 +138,27 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `type`) VALUES
-(1, 'admin_user', 'admin@example.com', 'securepassword1', 'ADMIN'),
+(1, 'Pyky', 'pykylolcgm@gmail.com', '1234', 'ADMIN'),
 (2, 'hoster_user1', 'hoster1@example.com', 'securepassword2', 'HOSTER'),
 (3, 'hoster_user2', 'hoster2@example.com', 'securepassword3', 'HOSTER');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `bans`
+--
+ALTER TABLE `bans`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`champion_id`);
+
+--
+-- Indices de la tabla `champions`
+--
+ALTER TABLE `champions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indices de la tabla `historial`
@@ -126,6 +183,18 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `bans`
+--
+ALTER TABLE `bans`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `champions`
+--
+ALTER TABLE `champions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `historial`

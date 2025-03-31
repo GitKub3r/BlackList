@@ -42,7 +42,7 @@ export const Account = () => {
     };
 
     fetchUserData();
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated]);
 
   return (
     <div className="account-page">
