@@ -11,7 +11,7 @@
   gap: var(--size-xlarge);
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
   .champion-layout {
     width: 100%;
   }

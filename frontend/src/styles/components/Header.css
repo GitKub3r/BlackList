@@ -31,12 +31,8 @@ nav.main-header-navbar ul {
   width: 100%;
 }
 
-<<<<<<< HEAD
 nav.main-header-navbar ul {
   width: 100%;
-=======
-nav.main-header-navbar          ul {
->>>>>>> dba9972bd0a693560a814a5f7917cbbd24987551
   display: flex;
   justify-content: space-between;
   gap: var(--size-medium);

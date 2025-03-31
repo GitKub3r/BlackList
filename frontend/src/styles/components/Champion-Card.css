@@ -22,6 +22,12 @@
   height: calc(var(--image-small) * 0.5);
 }
 
+.champion-button-content button,
+.champion-button-content button:hover {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
 .champion-button-content button img {
   width: calc(var(--image-small) * 0.25);
   height: calc(var(--image-small) * 0.2);

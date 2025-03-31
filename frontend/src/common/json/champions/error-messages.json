@@ -1,4 +1,4 @@
 {
   "empty": "Champion name is required",
-  "duplicate": "Champion name is already in use"
+  "duplicate": "Champion already exists"
 }
