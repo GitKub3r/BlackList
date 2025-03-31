@@ -3,15 +3,31 @@ import remove from "../../../public/assets/icons/delete.svg";
 import edit from "../../../public/assets/icons/edit.svg";
 
 export const PlayerCard = ({ player }) => {
-    const now =
-        new Date().getFullYear() +
-        "-" +
-        (new Date().getMonth() + 1) +
-        "-" +
-        new Date().getDate();
+    console.log("PlayerCard", player);
 
-    console.log("TODAY: ", now);
-    console.log("PLAYER BAN DATE: ", player.duration);
+    const calculateRemainingDays = (duration, permanent) => {
+        if (permanent) {
+            return "PERMA BANNED";
+        }
+
+        const currentDate = new Date();
+        const banEndDate = new Date(duration);
+        const diffTime = banEndDate - currentDate;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays > 1) {
+            return `${diffDays} days remaining`;
+        } else if (diffDays === 1) {
+            return "1 day remaining";
+        } else {
+            return "UNBANNED";
+        }
+    };
+
+    const remainingDays = calculateRemainingDays(
+        player.duration,
+        player.permanent
+    );
 
     return (
         <div className="player-card">
@@ -22,8 +38,8 @@ export const PlayerCard = ({ player }) => {
 
             <div className="player-ban-info">
                 <p>{player.description}</p>
-                <p>{player.duration}</p>
                 <p>{player.hoster.username}</p>
+                <p>{remainingDays}</p>
             </div>
 
             <div className="player-commands">

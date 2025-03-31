@@ -12,8 +12,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    gap: var(--size-default);
 }
 
 .player-name {
@@ -27,15 +25,24 @@
 }
 
 .player-ban-info {
+    width: 100%;
     display: flex;
-    flex-grow: 1;
-    justify-content: space-between;
-    gap: var(--size-small);
+    align-items: center;
+    justify-content: space-around;
+}
+
+.player-ban-info p:last-child {
+    width: 35%;
+    padding: var(--size-xsmall);
+    border-radius: 999px;
+    background-color: var(--color-bg-alt);
+    color: var(--color-text-alt);
+    text-align: center;
 }
 
 .player-commands {
     display: flex;
-    gap: var(--size-small);
+    gap: var(--size-xsmall);
     width: 10%;
 }
 
@@ -53,4 +60,17 @@
 
 .remove-player-button {
     background-color: var(--color-danger);
+    border: 1px solid var(--color-danger);
+}
+
+.remove-player-button:hover {
+    background-color: var(--color-danger);
+}
+
+@media (max-width: 1000px) {
+    .player-card {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
 }

@@ -7,6 +7,7 @@
     --color-text-muted-alt: #939393;
 
     --color-accent: #1a1a1a;
+    --color-accent-alt: #ffffff;
     --color-danger: #d32f2f;
 
     --color-header: #000000;
@@ -18,8 +19,8 @@
     --color-input-border: #565656;
     --color-input-border-focus: #000000;
 
-    --color-card: #ffffff;
-    --color-card-alt: #121212;
+    --color-card: #eeeeee;
+    --color-card-alt: #2a2a2a;
 
     --color-discord: #5f72b4;
     --color-discord-hover: #506098;
