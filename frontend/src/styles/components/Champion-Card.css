@@ -1,0 +1,49 @@
+.champion-card {
+  width: 100%;
+  padding: var(--size-small);
+
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 0 7px var(--color-accent);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.champion-card-content {
+  display: flex;
+  align-items: center;
+  gap: var(--size-medium);
+  width: 100%;
+}
+
+.champion-card-content img {
+  width: calc(var(--image-small) * 0.5);
+  height: calc(var(--image-small) * 0.5);
+}
+
+.champion-button-content button img {
+  width: calc(var(--image-small) * 0.25);
+  height: calc(var(--image-small) * 0.2);
+}
+
+.champion-card div.pseudo {
+  width: 1px;
+  height: 50px;
+  background-color: var(--color-accent);
+}
+
+@media (max-width: 450px) {
+  .champion-card {
+    flex-direction: column;
+    gap: var(--size-medium);
+  }
+
+  .champion-card-content h2 {
+    margin-left: auto;
+  }
+
+  .champion-button-content {
+    width: 100%;
+  }
+}

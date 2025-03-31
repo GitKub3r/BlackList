@@ -1,0 +1,18 @@
+.champion-layout {
+  width: 40%;
+  padding: var(--size-xlarge);
+
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius-medium);
+
+  display: flex;
+  flex-direction: column;
+
+  gap: var(--size-xlarge);
+}
+
+@media (max-width: 1200px) {
+  .champion-layout {
+    width: 100%;
+  }
+}

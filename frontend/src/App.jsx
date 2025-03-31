@@ -8,6 +8,8 @@ import { About } from "./common/pages/About";
 import { Login } from "./common/pages/Login";
 import { Account } from "./common/pages/Account";
 import { Database } from "./common/pages/Database";
+import { Champs } from "./common/pages/Champs";
+import { Hosters } from "./common/pages/Hosters";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<Account />} />
         <Route path="/database" element={<Database />} />
+        <Route path="/champions" element={<Champs />} />
+        <Route path="/hosters" element={<Hosters />} />
       </Routes>
 
       <Footer />

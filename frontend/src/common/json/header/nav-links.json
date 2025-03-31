@@ -42,5 +42,40 @@
         "icon": "login.svg"
       }
     ]
+  },
+
+  "admin": {
+    "navLinks": [
+      {
+        "name": "BlackList",
+        "url": "/",
+        "icon": "home.svg"
+      },
+      {
+        "name": "About",
+        "url": "/about",
+        "icon": "info.svg"
+      },
+      {
+        "name": "Database",
+        "url": "/database",
+        "icon": "db.svg"
+      },
+      {
+        "name": "Champions",
+        "url": "/champions",
+        "icon": "champions.svg"
+      },
+      {
+        "name": "Hosters",
+        "url": "/hosters",
+        "icon": "hosters.svg"
+      },
+      {
+        "name": "Account",
+        "url": "/account",
+        "icon": "account.svg"
+      }
+    ]
   }
 }

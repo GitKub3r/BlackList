@@ -1,7 +1,7 @@
 import { useAuth } from "../auth/AuthContext";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import jwtDecode from "jwt-decode"; // Correct import for jwt-decode
+import jwtDecode from "jwt-decode";
 import { UserCard } from "../components/UserCard";
 import "../../styles/pages/Account.css";
 import { UserPannel } from "../components/UserPannel";

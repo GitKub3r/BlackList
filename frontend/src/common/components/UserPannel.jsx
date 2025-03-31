@@ -2,7 +2,7 @@ import "../../styles/components/User-Pannel.css";
 import "../../styles/layouts/User-Form-Layout.css";
 
 import { UserPannelInput } from "./pannel/UserPannelInput";
-import messages from "../json/login/error-messages.json";
+import messages from "../json/account/error-messages.json";
 
 export const UserPannel = ({ data }) => {
   let error = false;
