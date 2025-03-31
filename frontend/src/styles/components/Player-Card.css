@@ -1,0 +1,56 @@
+.player-card {
+    width: 100%;
+    padding: var(--size-default);
+
+    background-color: var(--color-card);
+
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius-default);
+
+    margin: var(--size-small) 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: var(--size-default);
+}
+
+.player-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-name p {
+    color: var(--color-text-muted-alt);
+}
+
+.player-ban-info {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    gap: var(--size-small);
+}
+
+.player-commands {
+    display: flex;
+    gap: var(--size-small);
+    width: 10%;
+}
+
+.player-commands button {
+    padding: var(--size-xxsmall);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-commands button img {
+    width: calc(var(--image-small) / 4);
+}
+
+.remove-player-button {
+    background-color: var(--color-danger);
+}
