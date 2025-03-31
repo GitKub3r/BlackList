@@ -1,4 +1,7 @@
 package org.example.blacklist.repo;
 
-public interface ChampRepository {
+import org.example.blacklist.entities.Champion;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ChampRepository extends JpaRepository<Champion, Integer> {
 }
