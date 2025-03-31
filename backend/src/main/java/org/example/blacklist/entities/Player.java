@@ -32,6 +32,17 @@ public class Player {
     @JoinColumn(name = "hoster", nullable = false, referencedColumnName = "username")
     private User hoster;
 
+    @Column(name = "PERMANENT")
+    private Boolean permanent;
+
+    public Boolean getPermanent() {
+        return permanent;
+    }
+
+    public void setPermanent(Boolean permanent) {
+        this.permanent = permanent;
+    }
+
     public Integer getId() {
         return id;
     }
