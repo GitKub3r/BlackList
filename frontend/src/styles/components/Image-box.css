@@ -1,77 +1,77 @@
 .image-box {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: var(--size-xxlarge);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--size-xxlarge);
 }
 
 .image-box.reversed {
-  flex-direction: row-reverse;
-  text-align: right;
+    flex-direction: row-reverse;
+    text-align: right;
 }
 
 .image-box .text-section {
-  width: 50%;
+    width: 50%;
 }
 
 .image-box .text-section h1 {
-  font-size: var(--size-xxlarge);
+    font-size: var(--size-xxlarge);
 }
 
 .image-box .text-section h2 {
-  font-size: var(--size-large);
-  color: var(--color-text-muted);
+    font-size: var(--size-large);
+    color: var(--color-text-muted-alt);
 }
 
 .image-box .text-section p {
-  font-size: var(--size-default);
-  font-weight: 400;
-  margin-top: var(--size-xsmall);
+    font-size: var(--size-default);
+    font-weight: 400;
+    margin-top: var(--size-xsmall);
 }
 
 .image-box img {
-  width: fit-content;
-  height: var(--image-default);
-  border-radius: var(--size-small);
+    width: fit-content;
+    height: var(--image-default);
+    border-radius: var(--size-small);
 }
 
 .image-box.fade-in .text-section > * {
-  opacity: 0;
-  animation: fade-in 0.5s ease-in-out forwards;
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
 }
 
 .image-box.fade-in .text-section > *:nth-child(0) {
-  animation-delay: 0s;
+    animation-delay: 0s;
 }
 
 .image-box.fade-in .text-section > *:nth-child(1) {
-  animation-delay: 0.25s;
+    animation-delay: 0.25s;
 }
 
 .image-box.fade-in img {
-  animation: fade-in 0.5s ease-in-out forwards;
-  animation-delay: 0.45s;
+    animation: fade-in 0.5s ease-in-out forwards;
+    animation-delay: 0.45s;
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 525px) {
-  .image-box img {
-    display: none;
-  }
+    .image-box img {
+        display: none;
+    }
 
-  .image-box .text-section {
-    text-align: center;
-    width: 100%;
-  }
+    .image-box .text-section {
+        text-align: center;
+        width: 100%;
+    }
 }

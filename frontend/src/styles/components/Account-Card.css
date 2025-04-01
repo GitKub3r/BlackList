@@ -1,0 +1,83 @@
+.account-card {
+    width: 100%;
+    padding: var(--size-large);
+
+    border: 1px solid var(--color-accent);
+    border-radius: var(--border-radius-default);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--size-xlarge);
+
+    position: relative;
+}
+
+.account-info-actions {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--size-xxsmall);
+}
+
+.account-info {
+    width: 100%;
+    text-align: left;
+}
+
+.account-info p {
+    color: var(--color-text-muted-alt);
+}
+
+.account-actions {
+    width: 100%;
+    margin-top: var(--size-xsmall);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--size-xsmall);
+}
+
+.account-actions a,
+.account-actions div {
+    width: 100%;
+}
+
+.account-actions button {
+    width: 100%;
+}
+
+.remove-account {
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+}
+
+.remove-account:hover {
+    background-color: var(--color-danger);
+}
+
+.account-actions img {
+    width: calc(var(--image-small) / 6);
+    height: calc(var(--image-small) / 6);
+    cursor: pointer;
+}
+
+@media (max-width: 1250px) {
+    .account-card {
+        padding: var(--size-small);
+    }
+}
+
+@media (max-width: 525px) {
+    .account-card-img {
+        width: calc(var(--image-small) / 2);
+        height: calc(var(--image-small) / 2);
+
+        position: absolute;
+        top: var(--size-small);
+        right: var(--size-small);
+    }
+}
