@@ -2,9 +2,11 @@ package org.example.blacklist.service;
 
 import org.example.blacklist.config.JWTUtil;
 import org.example.blacklist.entities.User;
+import org.example.blacklist.model.UserCreate;
 import org.example.blacklist.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +20,14 @@ public class UserService {
         this.jwtUtil = jwtUtil;
     }
 
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(int id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public String checkLogin(String username, String password) {
         User user = userRepository.findByUsername(username);
 
@@ -28,8 +38,8 @@ public class UserService {
         return null;
     }
 
-    public User getUserById(int id) {
-        return userRepository.findById(id).orElse(null);
+    public void addUser(User user) {
+        userRepository.save(user);
     }
 
     public void updateUser(User user) {
@@ -41,6 +51,14 @@ public class UserService {
             user.setPassword(user.getPassword());
 
             userRepository.save(user);
+        }
+    }
+
+    public void deleteUser(int id) {
+        User user = userRepository.findById(id).orElse(null);
+
+        if (user != null) {
+            userRepository.delete(user);
         }
     }
 }

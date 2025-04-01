@@ -1,12 +1,14 @@
 package org.example.blacklist.controller;
 
 import org.example.blacklist.entities.User;
+import org.example.blacklist.model.UserCreate;
 import org.example.blacklist.model.UserDTO;
 import org.example.blacklist.model.UserUpdate;
 import org.example.blacklist.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -18,6 +20,11 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    public List<User> getUsers() {
+        return userService.getUsers();
     }
 
     @GetMapping("/{id}")
@@ -42,6 +49,18 @@ public class UserController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserCreate user) {
+        User dbUser = new User();
+        dbUser.setUsername(user.getUsername());
+        dbUser.setPassword(user.getPassword());
+        dbUser.setEmail(user.getEmail());
+        dbUser.setType(user.getType());
+
+        userService.addUser(dbUser);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody UserUpdate user) {
         User dbUser = userService.getUserById(user.getId());
@@ -64,5 +83,12 @@ public class UserController {
             userService.updateUser(dbUser);
             return ResponseEntity.ok().build();
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
+        userService.deleteUser(id);
+
+        return ResponseEntity.ok().build();
     }
 }
