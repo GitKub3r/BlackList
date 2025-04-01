@@ -1,66 +1,70 @@
 .text-box {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: var(--size-xxlarge);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--size-xxlarge);
 }
 
 .text-box.reversed {
-  flex-direction: row-reverse;
-  text-align: right;
+    flex-direction: row-reverse;
+    text-align: right;
 }
 
 .text-box .text-section {
-  width: 50%;
+    width: 50%;
+}
+
+.text-box .text-section.center {
+    text-align: center;
 }
 
 .text-box .text-section h1 {
-  font-size: var(--size-xxlarge);
+    font-size: var(--size-xxlarge);
 }
 
 .text-box .text-section h2 {
-  font-size: var(--size-large);
-  color: var(--color-text-muted);
+    font-size: var(--size-large);
+    color: var(--color-text-muted-alt);
 }
 
 .text-box .text-section p {
-  font-size: var(--size-default);
-  font-weight: 400;
-  margin-top: var(--size-xsmall);
+    font-size: var(--size-default);
+    font-weight: 400;
+    margin-top: var(--size-xsmall);
 }
 
 .text-box.fade-in .text-section > * {
-  opacity: 0;
-  animation: fade-in 0.5s ease-in-out forwards;
+    opacity: 0;
+    animation: fade-in 0.5s ease-in-out forwards;
 }
 
 .text-box.fade-in .text-section > *:nth-child(1) {
-  animation-delay: 0s;
+    animation-delay: 0s;
 }
 
 .text-box.fade-in .text-section > *:nth-child(2) {
-  animation-delay: 0.25s;
+    animation-delay: 0.25s;
 }
 
 .text-box.fade-in .text-section > *:nth-child(3) {
-  animation-delay: 0.35s;
+    animation-delay: 0.35s;
 }
 
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 750px) {
-  .text-box .text-section {
-    text-align: center;
-    width: 100%;
-  }
+    .text-box .text-section {
+        text-align: center;
+        width: 100%;
+    }
 }

@@ -1,0 +1,14 @@
+.grid-card-layout {
+    width: 100%;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: var(--size-default);
+}
+
+@media (max-width: 525px) {
+    .grid-card-layout {
+        gap: var(--size-xlarge);
+    }
+}
