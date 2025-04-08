@@ -4,9 +4,19 @@ import edit from "../../../public/assets/icons/hosters.svg";
 import remove from "../../../public/assets/icons/delete.svg";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
-export const AccountCard = ({ user }) => {
+import { useEffect, useState } from "react";
+export const AccountCard = ({ user, disabled = false }) => {
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
+    const [usernameTemplate, setUsernameTemplate] = useState(user.username);
+
+    useEffect(() => {
+        const nCharacters = 11;
+        if (user.username.length > nCharacters) {
+            const firstPart = user.username.slice(0, nCharacters);
+            setUsernameTemplate(`${firstPart}...`);
+        }
+    }, []);
 
     const handleRemoveAccount = async () => {
         try {
@@ -37,15 +47,15 @@ export const AccountCard = ({ user }) => {
 
             <div className="account-info-actions">
                 <div className="account-info">
-                    <h2>{user.username}</h2>
+                    <h2>{usernameTemplate}</h2>
                     <p>{user.type}</p>
                 </div>
 
                 <hr />
 
                 <div className="account-actions">
-                    <Link to="/update-account">
-                        <button className="edit-account">
+                    <Link to="/update-account" state={{ user }}>
+                        <button className="edit-account" disabled={disabled}>
                             <img src={edit} alt="edit-account-button" />
                         </button>
                     </Link>
@@ -53,6 +63,7 @@ export const AccountCard = ({ user }) => {
                         <button
                             className="remove-account"
                             onClick={handleRemoveAccount}
+                            disabled={disabled}
                         >
                             <img src={remove} alt="remove-hoster-button" />
                         </button>

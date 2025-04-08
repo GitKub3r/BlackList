@@ -6,8 +6,9 @@ export const CustomSelect = ({
     label = "Custom Select",
     options = [],
     onChange,
+    value = "Hoster",
 }) => {
-    const [selectedOption, setSelectedOption] = useState(options[0] || "");
+    const [selectedOption, setSelectedOption] = useState(value);
     const [isOpen, setIsOpen] = useState(false);
 
     const handleSelect = (option) => {

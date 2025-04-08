@@ -65,8 +65,6 @@ export const Users = () => {
         if (response.status === 404) {
             console.error("Error fetching user type:", data);
         } else if (response.ok) {
-            console.log(data);
-
             if (data.type !== "ADMIN") {
                 navigate("/");
             }
@@ -80,8 +78,12 @@ export const Users = () => {
             </Link>
 
             <GridCardLayout>
-                {users.map((users) => (
-                    <AccountCard key={users.id} user={users} />
+                {users.map((user) => (
+                    <AccountCard
+                        key={user.id}
+                        user={user}
+                        disabled={user.id == userID}
+                    />
                 ))}
             </GridCardLayout>
         </div>
