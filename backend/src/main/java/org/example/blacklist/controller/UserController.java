@@ -3,6 +3,7 @@ package org.example.blacklist.controller;
 import org.example.blacklist.entities.User;
 import org.example.blacklist.model.UserCreate;
 import org.example.blacklist.model.UserDTO;
+import org.example.blacklist.model.UserModify;
 import org.example.blacklist.model.UserUpdate;
 import org.example.blacklist.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -83,6 +84,19 @@ public class UserController {
             userService.updateUser(dbUser);
             return ResponseEntity.ok().build();
         }
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<?> modifyUser(@RequestBody UserModify user) {
+        User dbUser = new User();
+        dbUser.setId(user.getId());
+        dbUser.setUsername(user.getUsername());
+        dbUser.setPassword(user.getPassword());
+        dbUser.setEmail(user.getEmail());
+        dbUser.setType(user.getType());
+        userService.updateUser(dbUser);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
