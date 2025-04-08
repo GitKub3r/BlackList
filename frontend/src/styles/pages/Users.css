@@ -1,5 +1,6 @@
 .accounts-page {
     width: 100%;
+    min-height: 100dvh;
     padding: var(--size-xlarge);
     position: relative;
 

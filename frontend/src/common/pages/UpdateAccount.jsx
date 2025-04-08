@@ -5,15 +5,26 @@ import messages from "../json/users/error-messages.json";
 import { useState } from "react";
 import { LoginInput } from "../components/form/LoginInput";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import jwtDecode from "jwt-decode";
 
-export const UpdateAccount = ({ user }) => {
+export const UpdateAccount = () => {
     const navigate = useNavigate();
     let error = false;
     const token = localStorage.getItem("token");
     const userID = token ? jwtDecode(token).sub : null;
+    const location = useLocation();
+    const user = location.state.user;
 
     const [selectedType, setSelectedType] = useState(userTypes[0]);
+
+    const formatUserType = (type) => {
+        const firstLetter = type.charAt(0).toUpperCase();
+        const restOfString = type.slice(1).toLowerCase();
+        return firstLetter + restOfString;
+    };
+
+    const userType = formatUserType(user.type);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,21 +37,24 @@ export const UpdateAccount = ({ user }) => {
         handleValidation(username, email, password);
 
         if (!error) {
-            const user = {
+            const fetchedUser = {
+                id: user.id,
                 username: username.value,
                 email: email.value,
                 password: password.value,
-                type: type,
+                type: type.toUpperCase(),
             };
 
+            console.log(fetchedUser);
+
             const response = await fetch(
-                "http://localhost:8080/api/users/register",
+                "http://localhost:8080/api/users/modify",
                 {
-                    method: "POST",
+                    method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(user),
+                    body: JSON.stringify(fetchedUser),
                 }
             );
 
@@ -50,7 +64,7 @@ export const UpdateAccount = ({ user }) => {
         }
     };
 
-    const handleValidation = (username, email, password, type) => {
+    const handleValidation = (username, email, password) => {
         let nErrors = 0;
 
         if (username.value === "") {
@@ -110,7 +124,7 @@ export const UpdateAccount = ({ user }) => {
         <div className="create-account-page">
             <form onSubmit={handleSubmit} className="create-account-form">
                 <div className="create-account-text-container">
-                    <h1>Modify {user.username} the account</h1>
+                    <h1>Modify {user.username}'s account</h1>
                     <hr />
                 </div>
 
@@ -120,28 +134,32 @@ export const UpdateAccount = ({ user }) => {
                         type="text"
                         name="create-username"
                         id="create-username-input"
+                        value={user.username}
                     />
                     <LoginInput
                         label="Email"
                         type="email"
                         name="create-email"
                         id="create-email-input"
+                        value={user.email}
                     />
                     <LoginInput
                         label="Password"
                         type="password"
                         name="create-password"
                         id="create-password-input"
+                        value={user.password}
                     />
 
                     <CustomSelect
                         label="Account Type"
                         options={userTypes}
                         onChange={setSelectedType}
+                        value={userType}
                     />
                 </div>
 
-                <button>Create Account</button>
+                <button>Modify Account</button>
             </form>
         </div>
     );

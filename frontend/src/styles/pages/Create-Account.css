@@ -1,4 +1,5 @@
 .create-account-page {
+    min-height: 100dvh;
     padding: var(--size-xxlarge);
 
     display: flex;

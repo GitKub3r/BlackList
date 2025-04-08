@@ -18,6 +18,12 @@ body {
     background-color: var(--color-bg);
 }
 
+div#root {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+}
+
 ul {
     list-style: none;
 }
@@ -73,7 +79,22 @@ button {
 }
 
 button:hover {
-    background-color: var(--color-button-hover);
+    filter: brightness(0.75);
+}
+
+button:disabled {
+    background-color: var(--color-button-disabled);
+    border-color: var(--color-button-disabled);
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    background-color: var(--color-button-disabled);
+    filter: brightness(1);
+}
+
+button:disabled img {
+    visibility: hidden;
 }
 
 hr {
