@@ -19,6 +19,18 @@ public class ChampService {
         return champRepository.findAll();
     }
 
+    public Champion getChampionById(Integer id) {
+        return champRepository.findById(id).get();
+    }
+
+    public List<Champion> getChampionsById(List<Integer> ids) {
+        return champRepository.findByIdIn(ids);
+    }
+
+    public Champion getChampionByName(String championName) {
+        return champRepository.findByName(championName);
+    }
+
     public HttpStatus addChampion(String champion) {
         Champion champ = new Champion();
         champ.setName(champion);

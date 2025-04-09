@@ -22,14 +22,39 @@ public class ChampController {
         return champions;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getChampionById(@PathVariable Integer id) {
+        Champion champion = champService.getChampionById(id);
+        if (champion == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(champion);
+    }
+
     @PostMapping("/{name}")
     public ResponseEntity<?> addChampion(@PathVariable String name) {
         HttpStatus status = champService.addChampion(name);
         return ResponseEntity.status(status).build();
     }
 
+    @PostMapping("/filter")
+    public ResponseEntity<?> filterChampions(@RequestBody List<Integer> ids) {
+        List<Champion> champions = champService.getChampionsById(ids);
+
+        if (champions.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(champions);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteChampion(@PathVariable Integer id) {
+        Champion champion = champService.getChampionById(id);
+        if (champion == null) {
+            return ResponseEntity.notFound().build();
+        }
         champService.deleteChampion(id);
         return ResponseEntity.ok().build();
     }
