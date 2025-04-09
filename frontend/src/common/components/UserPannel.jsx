@@ -3,12 +3,21 @@ import "../../styles/layouts/User-Form-Layout.css";
 
 import { UserPannelInput } from "./pannel/UserPannelInput";
 import messages from "../json/account/error-messages.json";
+import { SuccessModal } from "./modals/SuccessModal";
+import { ErrorModal } from "./modals/ErrorModal";
+import { useState } from "react";
+import { WarningModal } from "./modals/WarningModal";
 
 export const UserPannel = ({ data = {} }) => {
     let error = false;
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showWarningModal, setShowWarningModal] = useState(false);
+    const [infoMessage, setInfoMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("WARNING MODAL STATE: ", showWarningModal);
 
         const username = document.getElementById("change-username-input");
         const email = document.getElementById("change-email-input");
@@ -35,11 +44,21 @@ export const UserPannel = ({ data = {} }) => {
             });
 
             if (response.status === 204) {
-                alert("No se realizaron cambios, los datos son iguales."); // O actualizar UI de otra forma
+                setShowWarningModal(false); // Reset modal visibility
+                setTimeout(() => {
+                    setInfoMessage("No changes were made");
+                    setShowWarningModal(true);
+                }, 0); // Ensure modal re-renders
             } else if (response.ok) {
-                window.location.reload();
+                setShowSuccessModal(false); // Reset modal visibility
+                setTimeout(() => {
+                    setShowSuccessModal(true);
+                }, 0); // Ensure modal re-renders
             } else {
-                console.error("Error changing user data");
+                setShowErrorModal(false); // Reset modal visibility
+                setTimeout(() => {
+                    setShowErrorModal(true);
+                }, 0); // Ensure modal re-renders
             }
         }
     };
@@ -75,39 +94,46 @@ export const UserPannel = ({ data = {} }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="user-pannel">
-            <div>
-                <h1>Modify your account</h1>
-                <hr />
-            </div>
-            <div className="user-pannel-layout">
-                <UserPannelInput
-                    label="Username"
-                    type="text"
-                    name="change-username"
-                    id="change-username-input"
-                    value={data.username}
-                />
+        <>
+            {showSuccessModal && (
+                <SuccessModal message="Data updated successfully!" />
+            )}
+            {showErrorModal && <ErrorModal message="Error updating data!" />}
+            {showWarningModal && <WarningModal message={infoMessage} />}
+            <form onSubmit={handleSubmit} className="user-pannel">
+                <div>
+                    <h1>Modify your account</h1>
+                    <hr />
+                </div>
+                <div className="user-pannel-layout">
+                    <UserPannelInput
+                        label="Username"
+                        type="text"
+                        name="change-username"
+                        id="change-username-input"
+                        value={data.username}
+                    />
 
-                <UserPannelInput
-                    label="Email"
-                    type="email"
-                    name="change-email"
-                    id="change-email-input"
-                    value={data.email}
-                />
+                    <UserPannelInput
+                        label="Email"
+                        type="email"
+                        name="change-email"
+                        id="change-email-input"
+                        value={data.email}
+                    />
 
-                <UserPannelInput
-                    label="Password"
-                    type="password"
-                    name="change-password"
-                    id="change-password-input"
-                    className="user-pannel-input password"
-                    value={data.password}
-                />
+                    <UserPannelInput
+                        label="Password"
+                        type="password"
+                        name="change-password"
+                        id="change-password-input"
+                        className="user-pannel-input password"
+                        value={data.password}
+                    />
 
-                <button type="submit">Change Data</button>
-            </div>
-        </form>
+                    <button type="submit">Change Data</button>
+                </div>
+            </form>
+        </>
     );
 };

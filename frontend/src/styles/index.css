@@ -74,7 +74,7 @@ button {
     font-weight: bold;
 
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
-        border-color 0.3s ease-in-out;
+        border-color 0.3s ease-in-out, filter 0.3s ease-in-out;
     cursor: pointer;
 }
 
@@ -83,18 +83,17 @@ button:hover {
 }
 
 button:disabled {
-    background-color: var(--color-button-disabled);
-    border-color: var(--color-button-disabled);
+    filter: brightness(0.25);
     cursor: not-allowed;
 }
 
 button:disabled:hover {
     background-color: var(--color-button-disabled);
-    filter: brightness(1);
+    border-color: var(--color-button-disabled);
 }
 
-button:disabled img {
-    visibility: hidden;
+button:disabled img:hover {
+    cursor: not-allowed;
 }
 
 hr {
@@ -166,6 +165,10 @@ input.error::placeholder {
     display: flex;
     flex-direction: column;
     gap: var(--size-small);
+}
+
+.page {
+    min-height: 100dvh;
 }
 
 @keyframes fadeIn {

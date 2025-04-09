@@ -2,7 +2,7 @@ import "../../styles/pages/Create-Account.css";
 import { CustomSelect } from "../components/CustomSelect";
 import userTypes from "../json/users/user-types.json";
 import messages from "../json/users/error-messages.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginInput } from "../components/form/LoginInput";
 import { useNavigate } from "react-router";
 import jwtDecode from "jwt-decode";
@@ -95,7 +95,7 @@ export const CreateAccount = () => {
 
         const data = await response.json();
 
-        if (response.status === 404) {
+        if (response.status === 404 || response.status === 400) {
             console.error("Error fetching user type:", data);
         } else if (response.ok) {
             if (data.type !== "ADMIN") {
@@ -104,7 +104,13 @@ export const CreateAccount = () => {
         }
     };
 
-    checkUserType();
+    useEffect(() => {
+        if (token) {
+            checkUserType();
+        } else {
+            navigate("/login");
+        }
+    }, []);
 
     return (
         <div className="create-account-page">

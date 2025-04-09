@@ -2,7 +2,7 @@ import "../../styles/pages/Create-Account.css";
 import { CustomSelect } from "../components/CustomSelect";
 import userTypes from "../json/users/user-types.json";
 import messages from "../json/users/error-messages.json";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoginInput } from "../components/form/LoginInput";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router";
@@ -14,7 +14,12 @@ export const UpdateAccount = () => {
     const token = localStorage.getItem("token");
     const userID = token ? jwtDecode(token).sub : null;
     const location = useLocation();
-    const user = location.state.user;
+    const user = location.state?.user || null;
+
+    if (user === null) {
+        navigate("/users");
+        return <div>An error has occurred</div>;
+    }
 
     const [selectedType, setSelectedType] = useState(userTypes[0]);
 
