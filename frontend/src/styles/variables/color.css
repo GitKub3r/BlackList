@@ -23,6 +23,18 @@
     --color-card: #eeeeee;
     --color-card-alt: #2a2a2a;
 
+    --color-info-modal-bg: #a3d1ff;
+    --color-info-modal-alt: #4879aa;
+
+    --color-error-modal-bg: #ffa3a3;
+    --color-error-modal-alt: #aa4848;
+
+    --color-success-modal-bg: #baffa3;
+    --color-success-modal-alt: #62aa48;
+
+    --color-warning-modal-bg: #ffd1a3;
+    --color-warning-modal-alt: #aa8e48;
+
     --color-discord: #5f72b4;
     --color-discord-hover: #506098;
 
