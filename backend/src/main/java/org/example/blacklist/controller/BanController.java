@@ -39,16 +39,19 @@ public class BanController {
         dbBan.setChampionId(champion.getId());
         dbBan.setUserId(ban.getUserID());
 
-        try {
-            banService.addBan(dbBan);
-            return ResponseEntity.ok().build();
-        } catch (IllegalStateException ex) {
-            // Usuario ya tiene 10 bans
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-        } catch (Exception ex) {
-            // Cualquier otro error inesperado
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado al agregar ban.");
-        }
+            HttpStatus response = banService.addBan(dbBan);
+
+            switch (response) {
+                case OK:
+                    return ResponseEntity.status(HttpStatus.OK).build();
+                case BAD_REQUEST:
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                case CONFLICT:
+                    return ResponseEntity.status(HttpStatus.CONFLICT).build();
+                default:
+                    return ResponseEntity.ok().build();
+            }
+
     }
 
 
