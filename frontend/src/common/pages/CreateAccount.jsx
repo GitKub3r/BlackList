@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { LoginInput } from "../components/form/LoginInput";
 import { useNavigate } from "react-router";
 import jwtDecode from "jwt-decode";
+import { ErrorModal } from "../components/modals/ErrorModal";
 
 export const CreateAccount = () => {
     const navigate = useNavigate();
@@ -14,6 +15,8 @@ export const CreateAccount = () => {
     const userID = token ? jwtDecode(token).sub : null;
 
     const [selectedType, setSelectedType] = useState(userTypes[0]);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,36 +53,35 @@ export const CreateAccount = () => {
         }
     };
 
-    const handleValidation = (username, email, password, type) => {
+    const handleValidation = (username, email, password) => {
         let nErrors = 0;
 
         if (username.value === "") {
             nErrors++;
-            showError(username, messages.empty.username);
         }
 
         if (email.value === "") {
             nErrors++;
-            showError(email, messages.empty.email);
         }
 
         if (password.value === "") {
             nErrors++;
-            showError(password, messages.empty.password);
         }
 
         if (nErrors > 0) {
             error = true;
+            showError(messages.empty);
         } else {
             error = false;
         }
     };
 
-    const showError = (input, message) => {
-        input.classList.add("error");
-        input.previousSibling.classList.add("error");
-        input.placeholder = message;
-        input.value = "";
+    const showError = (message) => {
+        setErrorMessage(message);
+        setShowErrorModal(false);
+        setTimeout(() => {
+            setShowErrorModal(true);
+        }, 10);
     };
 
     const checkUserType = async () => {
@@ -114,6 +116,7 @@ export const CreateAccount = () => {
 
     return (
         <div className="create-account-page">
+            {showErrorModal && <ErrorModal message={errorMessage} />}
             <form onSubmit={handleSubmit} className="create-account-form">
                 <div className="create-account-text-container">
                     <h1>Create a new account</h1>

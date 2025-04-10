@@ -1,0 +1,7 @@
+{
+    "empty": "Champion name is required",
+    "limit": "You have reached the maximum number of bans",
+    "not-found": "Champion not found",
+    "unknown": "An unexpected error occurred",
+    "bans-error": "An unexpected error occurred while fetching the bans"
+}

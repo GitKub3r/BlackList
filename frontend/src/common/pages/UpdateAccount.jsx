@@ -7,6 +7,7 @@ import { LoginInput } from "../components/form/LoginInput";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router";
 import jwtDecode from "jwt-decode";
+import { ErrorModal } from "../components/modals/ErrorModal";
 
 export const UpdateAccount = () => {
     const navigate = useNavigate();
@@ -15,6 +16,8 @@ export const UpdateAccount = () => {
     const userID = token ? jwtDecode(token).sub : null;
     const location = useLocation();
     const user = location.state?.user || null;
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     if (user === null) {
         navigate("/users");
@@ -50,21 +53,24 @@ export const UpdateAccount = () => {
                 type: type.toUpperCase(),
             };
 
-            console.log(fetchedUser);
+            try {
+                const response = await fetch(
+                    "http://localhost:8080/api/users/modify",
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(fetchedUser),
+                    }
+                );
 
-            const response = await fetch(
-                "http://localhost:8080/api/users/modify",
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(fetchedUser),
+                if (response.ok) {
+                    navigate("/users");
                 }
-            );
-
-            if (response.ok) {
-                navigate("/users");
+            } catch (error) {
+                console.error("Error modifying user:", error);
+                showError(messages.unknown);
             }
         }
     };
@@ -74,31 +80,30 @@ export const UpdateAccount = () => {
 
         if (username.value === "") {
             nErrors++;
-            showError(username, messages.empty.username);
         }
 
         if (email.value === "") {
             nErrors++;
-            showError(email, messages.empty.email);
         }
 
         if (password.value === "") {
             nErrors++;
-            showError(password, messages.empty.password);
         }
 
         if (nErrors > 0) {
             error = true;
+            showError(messages.empty);
         } else {
             error = false;
         }
     };
 
-    const showError = (input, message) => {
-        input.classList.add("error");
-        input.previousSibling.classList.add("error");
-        input.placeholder = message;
-        input.value = "";
+    const showError = (message) => {
+        setErrorMessage(message);
+        setShowErrorModal(false);
+        setTimeout(() => {
+            setShowErrorModal(true);
+        }, 10);
     };
 
     const checkUserType = async () => {
@@ -127,6 +132,7 @@ export const UpdateAccount = () => {
 
     return (
         <div className="create-account-page">
+            {showErrorModal && <ErrorModal message={errorMessage} />}
             <form onSubmit={handleSubmit} className="create-account-form">
                 <div className="create-account-text-container">
                     <h1>Modify {user.username}'s account</h1>

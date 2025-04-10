@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 
 export const WarningModal = ({ message }) => {
     const [visible, setVisible] = useState(false);
+    const delay = 25;
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setVisible(true);
-        }, 10); // Small delay to ensure animation starts smoothly
+        }, delay); // Small delay to ensure animation starts smoothly
 
         const autoCloseTimer = setTimeout(() => {
             setVisible(false);
-        }, 3010); // Auto-close after 3 seconds (including delay)
+        }, 3000 + delay); // Auto-close after 3 seconds (including delay)
 
         return () => {
             clearTimeout(timer);

@@ -1,7 +1,6 @@
 {
-  "empty": {
-    "username": "Username is required",
-    "password": "Password is required",
-    "email": "Email is required"
-  }
+    "empty": "All fields are required.",
+    "warning": "No changes were made",
+    "success": "User data updated successfully",
+    "error": "Error updating user data"
 }
