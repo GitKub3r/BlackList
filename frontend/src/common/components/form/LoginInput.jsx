@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const LoginInput = ({
     label,
     type,
@@ -5,16 +7,15 @@ export const LoginInput = ({
     id,
     focus = false,
     value = "",
+    handleChange = () => {},
 }) => {
-    const handleChange = (e) => {
-        const input = e.target;
-        const label = input.previousSibling;
+    const [inputValue, setInputValue] = useState(value);
 
-        input.classList.remove("error");
-        input.placeholder = "";
-
-        label.classList.remove("error");
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+        handleChange(e.target.value); // Trigger the provided onChange function
     };
+
     return (
         <div className="input-container">
             <label htmlFor={id}>{label}</label>
@@ -22,8 +23,8 @@ export const LoginInput = ({
                 type={type}
                 name={name}
                 id={id}
-                onChange={handleChange}
-                defaultValue={value}
+                value={inputValue}
+                onChange={handleInputChange}
                 {...(focus && { autoFocus: true })}
             />
         </div>

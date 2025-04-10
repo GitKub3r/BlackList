@@ -12,6 +12,7 @@ export const Champs = () => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
     const [champions, setChampions] = useState([]);
+    const [allData, setAllData] = useState([]);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     let error = false;
@@ -33,6 +34,7 @@ export const Champs = () => {
                     const sortedData = data.sort((a, b) =>
                         a.name.localeCompare(b.name)
                     );
+                    setAllData(sortedData);
                     setChampions(sortedData);
                 });
         } else {
@@ -64,6 +66,28 @@ export const Champs = () => {
                 }
             });
         }
+    };
+
+    const handleSearch = (e) => {
+        const searchInput = e.target;
+        const filteredChampions = allData.filter((champion) =>
+            champion.name
+                .toLowerCase()
+                .includes(searchInput.value.toLowerCase())
+        );
+        setChampions(filteredChampions);
+    };
+
+    const handleFilter = (e) => {
+        const searchInput = e.target;
+        const filteredChampions = allData.filter((champion) =>
+            champion.name
+                .toLowerCase()
+                .includes(searchInput.value.toLowerCase())
+        );
+        setChampions(filteredChampions);
+
+        console.log(searchInput.value);
     };
 
     const handleValidation = (input) => {
@@ -114,19 +138,28 @@ export const Champs = () => {
     return (
         <div className="champs-page">
             {showErrorModal && <ErrorModal message={errorMessage} />}
-            <form onSubmit={handleSubmit}>
-                <LoginInput
-                    label="Champion Name"
-                    type="text"
-                    name="champion-name"
-                    id="champion-name-input"
-                    focus={true}
-                />
+            <div className="forms-container">
+                <form onSubmit={(e) => e.preventDefault()}>
+                    <LoginInput
+                        label="Search"
+                        type="text"
+                        name="champion-search"
+                        id="champion-search-input"
+                        handleChange={() => handleFilter(event)}
+                    />
+                </form>
+                <form onSubmit={handleSubmit}>
+                    <LoginInput
+                        label="Champion Name"
+                        type="text"
+                        name="champion-name"
+                        id="champion-name-input"
+                        focus={true}
+                    />
 
-                <button>Add Champion</button>
-            </form>
-
-            <hr />
+                    <button>Add Champion</button>
+                </form>
+            </div>
 
             <ChampionLayout champions={champions} />
         </div>

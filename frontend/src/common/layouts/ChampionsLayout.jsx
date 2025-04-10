@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../../styles/layouts/Champion-Layout.css";
+import missing from "../../../public/assets/images/league-missing-ping.webp";
 import { ChampionCard } from "../components/ChampionCard";
 
 export const ChampionLayout = ({ champions }) => {
@@ -36,13 +37,20 @@ export const ChampionLayout = ({ champions }) => {
 
     return (
         <div className="champion-layout">
-            {currentChampions.map((champion, index) => (
-                <ChampionCard
-                    key={index}
-                    champion={champion}
-                    onDelete={() => handleDelete(champion.id)}
-                />
-            ))}
+            {champions.length === 0 ? (
+                <div className="no-champions-found">
+                    <h1>Oops, no champions were found...</h1>
+                    <img src={missing} alt="league-of-legeds-missing-ping" />
+                </div>
+            ) : (
+                currentChampions.map((champion, index) => (
+                    <ChampionCard
+                        key={index}
+                        champion={champion}
+                        onDelete={() => handleDelete(champion.id)}
+                    />
+                ))
+            )}
         </div>
     );
 };

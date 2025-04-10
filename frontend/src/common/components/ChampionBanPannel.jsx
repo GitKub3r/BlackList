@@ -8,17 +8,23 @@ import { useNavigate } from "react-router";
 import jwtDecode from "jwt-decode";
 import { InfoModal } from "./modals/InfoModal";
 import { ErrorModal } from "./modals/ErrorModal";
+import { SuccessModal } from "./modals/SuccessModal";
 
 export const ChampionBanPannel = () => {
     const navigate = useNavigate();
     const [bannedChampions, setBannedChampions] = useState([]);
     const [bans, setBans] = useState([]);
+    const [allChampions, setAllChampions] = useState([]);
+    const [filteredChampions, setFilteredChampions] = useState([]);
     const token = localStorage.getItem("token");
     let error = false;
+    let ids;
     const [infoModal, setShowInfoModal] = useState(false);
     const [infoMessage, setInfoMessage] = useState("");
     const [errorModal, setShowErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [successModal, setShowSuccessModal] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
 
     const handleSubmit = async (e) => {
         const userID = jwtDecode(token).sub;
@@ -48,11 +54,20 @@ export const ChampionBanPannel = () => {
             if (response.status === 404) {
                 showError(messages["not-found"]);
                 championNameInput.value = "";
-            } else if (response.status === 500) {
+            } else if (response.status === 400) {
                 showError(messages.limit);
                 championNameInput.value = "";
+            } else if (response.status === 409) {
+                showError(messages.duplicate);
+                championNameInput.value = "";
+            } else if (response.status === 500) {
+                showError(messages.unknown);
+                championNameInput.value = "";
             } else if (response.status === 200) {
-                window.location.reload();
+                championNameInput.value = "";
+                fetchBans();
+                fetchBannedChampions(ids);
+                showSuccess(messages["add-success"]);
             }
         }
     };
@@ -93,7 +108,9 @@ export const ChampionBanPannel = () => {
                 (ban) => ban.championName !== championName
             );
             setBans(updatedBans);
-            window.location.reload();
+            fetchBans();
+            fetchBannedChampions(ids);
+            showSuccess(messages["remove-success"]);
         } else {
             console.error("Error deleting champion:", response.statusText);
         }
@@ -151,6 +168,39 @@ export const ChampionBanPannel = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchAllChampions = async () => {
+            try {
+                const response = await fetch(
+                    "http://localhost:8080/api/champions",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                if (response.status === 200) {
+                    const data = await response.json();
+                    const sortedData = data.sort((a, b) =>
+                        a.name.localeCompare(b.name)
+                    );
+                    setAllChampions(sortedData);
+                } else {
+                    console.error("Error fetching all champions");
+                }
+            } catch (error) {
+                console.error("Error fetching all champions:", error);
+            }
+        };
+
+        if (token) {
+            fetchAllChampions();
+        }
+    }, [token]);
+
     const handleClick = () => {
         const names = bannedChampions
             .map((champion) => champion.name)
@@ -170,6 +220,20 @@ export const ChampionBanPannel = () => {
         showInfo("Copied to clipboard!");
     };
 
+    const handleInputChange = (e) => {
+        const inputValue = e.target.value.toLowerCase();
+        const matches = allChampions.filter((champion) =>
+            champion.name.toLowerCase().includes(inputValue)
+        );
+        setFilteredChampions(matches);
+    };
+
+    const handleSelectChampion = (name) => {
+        const input = document.getElementById("add-banned-champion-input");
+        input.value = name; // Set the selected champion name in the input field
+        setFilteredChampions([]); // Clear the suggestions
+    };
+
     const showError = (message) => {
         setErrorMessage(message);
         setShowErrorModal(false); // Reset modal visibility
@@ -186,6 +250,14 @@ export const ChampionBanPannel = () => {
         }, 10);
     };
 
+    const showSuccess = (message) => {
+        setSuccessMessage(message);
+        setShowSuccessModal(false); // Reset modal visibility
+        setTimeout(() => {
+            setShowSuccessModal(true); // Trigger re-render
+        }, 10);
+    };
+
     useEffect(() => {
         if (token) {
             fetchBans();
@@ -195,12 +267,13 @@ export const ChampionBanPannel = () => {
     }, []);
 
     useEffect(() => {
-        const ids = bans.map((ban) => ban.championId);
+        ids = bans.map((ban) => ban.championId);
         fetchBannedChampions(ids);
     }, [bans]);
 
     return (
         <div className="champion-ban-pannel">
+            {successModal && <SuccessModal message={successMessage} />}
             {infoModal && <InfoModal message={infoMessage} />}
             {errorModal && <ErrorModal message={errorMessage} />}
             <div className="title-section">
@@ -215,8 +288,23 @@ export const ChampionBanPannel = () => {
                         name="add-banned-champion"
                         id="add-banned-champion-input"
                         placeholder="Add a champion to your ban list"
+                        autoComplete="off"
+                        onChange={handleInputChange}
                     />
-
+                    {filteredChampions.length > 0 && (
+                        <ul className="suggestions-list">
+                            {filteredChampions.map((champion) => (
+                                <li
+                                    key={champion.id}
+                                    onClick={() =>
+                                        handleSelectChampion(champion.name)
+                                    }
+                                >
+                                    {champion.name}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                     <button className="add-champion-button">Add</button>
                 </form>
                 {bannedChampions.length === 0 ? (
@@ -249,7 +337,7 @@ export const ChampionBanPannel = () => {
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 height="24px"
-                                viewBox="0 -960 960 960"
+                                viewBox="0 -960 960 -960"
                                 width="24px"
                                 fill="#FFFFFF"
                             >

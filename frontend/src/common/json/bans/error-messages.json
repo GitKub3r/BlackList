@@ -1,6 +1,9 @@
 {
-    "empty": "Champion name is required",
+    "add-success": "Ban added successfully",
+    "remove-success": "Ban removed successfully",
     "limit": "You have reached the maximum number of bans",
+    "duplicate": "This champion is already banned",
+    "empty": "Champion name is required",
     "not-found": "Champion not found",
     "unknown": "An unexpected error occurred",
     "bans-error": "An unexpected error occurred while fetching the bans"
