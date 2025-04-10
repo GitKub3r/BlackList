@@ -1,5 +1,6 @@
 import "../../styles/components/Champion-Ban-Pannel.css";
 import missing from "../../../public/assets/images/league-missing-ping.webp";
+import messages from "../json/bans/error-messages.json";
 import { ChampionCard } from "./ChampionCard";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -7,16 +8,17 @@ import { useNavigate } from "react-router";
 import jwtDecode from "jwt-decode";
 import { InfoModal } from "./modals/InfoModal";
 import { ErrorModal } from "./modals/ErrorModal";
-import { WarningModal } from "./modals/WarningModal";
-import { SuccessModal } from "./modals/SuccessModal";
 
 export const ChampionBanPannel = () => {
     const navigate = useNavigate();
     const [bannedChampions, setBannedChampions] = useState([]);
     const [bans, setBans] = useState([]);
     const token = localStorage.getItem("token");
-    const [showModal, setShowModal] = useState(false);
-    const [modalMessage, setModalMessage] = useState("");
+    let error = false;
+    const [infoModal, setShowInfoModal] = useState(false);
+    const [infoMessage, setInfoMessage] = useState("");
+    const [errorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleSubmit = async (e) => {
         const userID = jwtDecode(token).sub;
@@ -26,28 +28,47 @@ export const ChampionBanPannel = () => {
             "add-banned-champion-input"
         );
 
-        const champion = {
-            championName: championNameInput.value,
-            userID: userID,
-        };
+        handleValidation(championNameInput);
 
-        const response = await fetch("http://localhost:8080/api/bans", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(champion),
-        });
+        if (!error) {
+            const champion = {
+                championName: championNameInput.value,
+                userID: userID,
+            };
 
-        if (response.status === 404) {
-            championNameInput.placeholder = "Champion not found";
-            championNameInput.value = "";
-            championNameInput.classList.add("error");
-        } else if (response.status === 400) {
+            const response = await fetch("http://localhost:8080/api/bans", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(champion),
+            });
+
+            if (response.status === 404) {
+                showError(messages["not-found"]);
+                championNameInput.value = "";
+            } else if (response.status === 500) {
+                showError(messages.limit);
+                championNameInput.value = "";
+            } else if (response.status === 200) {
+                window.location.reload();
+            }
+        }
+    };
+
+    const handleValidation = (input) => {
+        let nErrors = 0;
+
+        if (input.value === "") {
+            nErrors++;
+        }
+
+        if (nErrors > 0) {
+            error = true;
+            showError(messages.empty);
         } else {
-            championNameInput.value = "";
-            window.location.reload();
+            error = false;
         }
     };
 
@@ -80,44 +101,53 @@ export const ChampionBanPannel = () => {
 
     const fetchBans = async () => {
         const userID = jwtDecode(token).sub;
-        const response = await fetch(
-            `http://localhost:8080/api/bans/${userID}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        try {
+            const response = await fetch(
+                `http://localhost:8080/api/bans/${userID}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-        if (response.status === 200) {
-            const data = await response.json();
-            setBans(data);
+            if (response.status === 200) {
+                const data = await response.json();
+                setBans(data);
+            }
+        } catch (error) {
+            console.error("Error fetching bans:", error);
+            showError(messages["bans-error"]);
         }
     };
 
     const fetchBannedChampions = async (ids) => {
-        const response = await fetch(
-            "http://localhost:8080/api/champions/filter",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(ids),
-            }
-        );
-
-        const data = await response.json();
-        if (response.status === 200) {
-            const sortedData = data.sort((a, b) =>
-                a.name.localeCompare(b.name)
+        try {
+            const response = await fetch(
+                "http://localhost:8080/api/champions/filter",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(ids),
+                }
             );
-            setBannedChampions(sortedData);
-        } else {
-            console.error("Error fetching banned champions:", data);
+
+            const data = await response.json();
+            if (response.status === 200) {
+                const sortedData = data.sort((a, b) =>
+                    a.name.localeCompare(b.name)
+                );
+                setBannedChampions(sortedData);
+            } else {
+                console.error("Error fetching banned champions:", data);
+            }
+        } catch (error) {
+            console.error("Error fetching banned champions:", error);
         }
     };
 
@@ -137,11 +167,23 @@ export const ChampionBanPannel = () => {
         document.execCommand("copy");
         document.body.removeChild(textarea);
 
-        setShowModal(false); // Reset modal visibility
+        showInfo("Copied to clipboard!");
+    };
+
+    const showError = (message) => {
+        setErrorMessage(message);
+        setShowErrorModal(false); // Reset modal visibility
         setTimeout(() => {
-            setModalMessage("Copied to clipboard!");
-            setShowModal(true);
-        }, 0); // Ensure the modal re-renders
+            setShowErrorModal(true); // Trigger re-render
+        }, 10);
+    };
+
+    const showInfo = (message) => {
+        setInfoMessage(message);
+        setShowInfoModal(false); // Reset modal visibility
+        setTimeout(() => {
+            setShowInfoModal(true); // Trigger re-render
+        }, 10);
     };
 
     useEffect(() => {
@@ -159,7 +201,8 @@ export const ChampionBanPannel = () => {
 
     return (
         <div className="champion-ban-pannel">
-            {showModal && <InfoModal message={modalMessage} />}
+            {infoModal && <InfoModal message={infoMessage} />}
+            {errorModal && <ErrorModal message={errorMessage} />}
             <div className="title-section">
                 <h1>Banned Champions</h1>
                 <hr />
@@ -172,7 +215,6 @@ export const ChampionBanPannel = () => {
                         name="add-banned-champion"
                         id="add-banned-champion-input"
                         placeholder="Add a champion to your ban list"
-                        onFocus={(e) => e.target.classList.remove("error")}
                     />
 
                     <button className="add-champion-button">Add</button>

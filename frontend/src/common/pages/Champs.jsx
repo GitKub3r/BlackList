@@ -1,16 +1,19 @@
 import "../../styles/pages/Champs.css";
 import { LoginInput } from "../components/form/LoginInput";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { ChampionLayout } from "../layouts/ChampionsLayout";
 import { useAuth } from "../auth/AuthContext";
 import messages from "../json/champions/error-messages.json";
 import jwtDecode from "jwt-decode";
+import { ErrorModal } from "../components/modals/ErrorModal";
 
 export const Champs = () => {
     const navigate = useNavigate();
     const { isAuthenticated } = useAuth();
     const [champions, setChampions] = useState([]);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     let error = false;
 
     const token = localStorage.getItem("token");
@@ -53,7 +56,7 @@ export const Champs = () => {
                 },
             }).then((response) => {
                 if (response.status === 400) {
-                    showError(name, messages.duplicate);
+                    showError(messages.duplicate);
                 } else if (response.ok) {
                     setChampions([...champions, name.value]);
                     name.value = "";
@@ -67,20 +70,21 @@ export const Champs = () => {
         let nErrors = 0;
 
         if (input.value === "") {
-            showError(input, messages.empty);
             nErrors++;
         }
 
         if (nErrors > 0) {
+            showError(messages.empty);
             error = true;
         }
     };
 
-    const showError = (input, message) => {
-        input.classList.add("error");
-        input.previousSibling.classList.add("error");
-        input.placeholder = message;
-        input.value = "";
+    const showError = (message) => {
+        setErrorMessage(message);
+        setShowErrorModal(false);
+        setTimeout(() => {
+            setShowErrorModal(true);
+        }, 10);
     };
 
     const checkUserType = async () => {
@@ -109,6 +113,7 @@ export const Champs = () => {
 
     return (
         <div className="champs-page">
+            {showErrorModal && <ErrorModal message={errorMessage} />}
             <form onSubmit={handleSubmit}>
                 <LoginInput
                     label="Champion Name"

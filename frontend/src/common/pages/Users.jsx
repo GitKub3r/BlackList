@@ -6,6 +6,8 @@ import jwtDecode from "jwt-decode";
 import { GridCardLayout } from "../layouts/GridCardLayout";
 import { AccountCard } from "../components/AccountCard";
 import { Link } from "react-router";
+import { ErrorModal } from "../components/modals/ErrorModal";
+import messages from "../json/users/error-messages.json";
 
 export const Users = () => {
     const token = localStorage.getItem("token");
@@ -13,6 +15,8 @@ export const Users = () => {
     const [users, setUsers] = useState([]);
     const { isAuthenticated } = useAuth();
     const userID = token ? jwtDecode(token).sub : null;
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
         checkUserType();
@@ -64,6 +68,7 @@ export const Users = () => {
 
         if (response.status === 404) {
             console.error("Error fetching user type:", data);
+            showError(messages.unknown);
         } else if (response.ok) {
             if (data.type !== "ADMIN") {
                 navigate("/");
@@ -71,8 +76,17 @@ export const Users = () => {
         }
     };
 
+    const showError = (message) => {
+        setErrorMessage(message);
+        setShowErrorModal(false); // Reset modal visibility
+        setTimeout(() => {
+            setShowErrorModal(true); // Trigger re-render
+        }, 10);
+    };
+
     return (
         <div className="accounts-page">
+            {showErrorModal && <ErrorModal message={errorMessage} />}
             <Link className="create-account" to="/create-account">
                 <button>Create New Account</button>
             </Link>

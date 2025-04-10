@@ -7,17 +7,17 @@ import { SuccessModal } from "./modals/SuccessModal";
 import { ErrorModal } from "./modals/ErrorModal";
 import { useState } from "react";
 import { WarningModal } from "./modals/WarningModal";
-
 export const UserPannel = ({ data = {} }) => {
     let error = false;
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [showWarningModal, setShowWarningModal] = useState(false);
-    const [infoMessage, setInfoMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [warningMessage, setWarningMessage] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("WARNING MODAL STATE: ", showWarningModal);
 
         const username = document.getElementById("change-username-input");
         const email = document.getElementById("change-email-input");
@@ -44,21 +44,24 @@ export const UserPannel = ({ data = {} }) => {
             });
 
             if (response.status === 204) {
+                setWarningMessage(messages.warning);
                 setShowWarningModal(false); // Reset modal visibility
                 setTimeout(() => {
-                    setInfoMessage("No changes were made");
-                    setShowWarningModal(true);
-                }, 0); // Ensure modal re-renders
+                    setShowWarningModal(true); // Trigger re-render
+                }, 10);
             } else if (response.ok) {
+                setSuccessMessage(messages.success);
                 setShowSuccessModal(false); // Reset modal visibility
                 setTimeout(() => {
-                    setShowSuccessModal(true);
-                }, 0); // Ensure modal re-renders
+                    setShowSuccessModal(true); // Trigger re-render
+                }, 10);
+                setTimeout(() => window.location.reload(), 3500);
             } else {
+                setErrorMessage(messages.error);
                 setShowErrorModal(false); // Reset modal visibility
                 setTimeout(() => {
-                    setShowErrorModal(true);
-                }, 0); // Ensure modal re-renders
+                    setShowErrorModal(true); // Trigger re-render
+                }, 10);
             }
         }
     };
@@ -68,20 +71,22 @@ export const UserPannel = ({ data = {} }) => {
 
         if (username.value === "") {
             nErrors++;
-            showError(username, messages.empty.username);
         }
 
         if (email.value === "") {
             nErrors++;
-            showError(email, messages.empty.email);
         }
 
         if (password.value === "") {
             nErrors++;
-            showError(password, messages.empty.password);
         }
 
         if (nErrors > 0) {
+            setShowErrorModal(false); // Reset modal visibility
+            setErrorMessage("All fields are required");
+            setTimeout(() => {
+                setShowErrorModal(true);
+            }, 0); // Ensure modal re-renders
             error = true;
         }
     };
@@ -96,10 +101,14 @@ export const UserPannel = ({ data = {} }) => {
     return (
         <>
             {showSuccessModal && (
-                <SuccessModal message="Data updated successfully!" />
+                <SuccessModal key={successMessage} message={successMessage} />
             )}
-            {showErrorModal && <ErrorModal message="Error updating data!" />}
-            {showWarningModal && <WarningModal message={infoMessage} />}
+            {showErrorModal && (
+                <ErrorModal key={errorMessage} message={errorMessage} />
+            )}
+            {showWarningModal && (
+                <WarningModal key={warningMessage} message={warningMessage} />
+            )}
             <form onSubmit={handleSubmit} className="user-pannel">
                 <div>
                     <h1>Modify your account</h1>
