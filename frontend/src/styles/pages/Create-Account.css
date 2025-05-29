@@ -1,30 +1,36 @@
 .create-account-page {
-    min-height: 100dvh;
-    padding: var(--size-xxlarge);
+  min-height: 100dvh;
+  padding: var(--size-xxlarge);
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    background: linear-gradient(45deg, black 25%, transparent 25%),
-        linear-gradient(-45deg, black 25%, transparent 25%);
-    background-position: 0 10px;
+  background: linear-gradient(45deg, black 25%, transparent 25%),
+    linear-gradient(-45deg, black 25%, transparent 25%);
+  background-position: 0 10px;
 }
 
 .create-account-form {
-    width: 55%;
-    margin: 0;
+  width: 55%;
+  margin: 0;
 }
 
 .create-account-text-container {
-    width: 100%;
+  width: 100%;
 }
 
 .create-account-inputs-container {
-    width: 100%;
+  width: 100%;
 
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 1fr);
-    gap: var(--size-xsmall);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 1fr);
+  gap: var(--size-xsmall);
+}
+
+@media (max-width: 700px) {
+  .create-account-form {
+    width: 100%;
+  }
 }

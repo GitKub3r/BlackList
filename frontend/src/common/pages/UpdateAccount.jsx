@@ -102,7 +102,7 @@ export const UpdateAccount = () => {
 
     if (nErrors > 0) {
       error = true;
-      showModal(messages.empty, "error");
+      showModal(messages.empty, "warning");
     } else {
       error = false;
     }
@@ -136,7 +136,6 @@ export const UpdateAccount = () => {
             type="password"
             name="create-password"
             id="create-password-input"
-            value={userToEdit.password}
           />
 
           <CustomSelect

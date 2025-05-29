@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../auth/AuthContext";
 import { PlayerCard } from "../components/PlayerCard";
-import { BlackListInput } from "../components/BlackListInput";
 import messages from "../json/database/error-messages.json";
 
 export const Database = () => {
   const navigate = useNavigate();
   const { isAuthenticated, token, apiURL } = useAuth();
   const [players, setPlayers] = useState([]);
+  const [search, setSearch] = useState(""); // Estado para búsqueda
   let error = false;
 
   useEffect(() => {
@@ -35,13 +35,10 @@ export const Database = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log("Fetched players:", data); // Debugging line
-
           setPlayers(data);
         } else {
-          // Maneja el error, por ejemplo:
           setPlayers([]);
-          showModal("No players found or error fetching players", "error");
+          // showModal("No players found or error fetching players", "error");
         }
       } else {
         navigate("/login");
@@ -53,9 +50,8 @@ export const Database = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const search = document.getElementById("blacklist-search-input");
-
-    handleValidation(search);
+    const searchInput = document.getElementById("search-banned-players-input");
+    handleValidation(searchInput);
   };
 
   const handleValidation = (input) => {
@@ -78,6 +74,13 @@ export const Database = () => {
     input.value = "";
   };
 
+  // Filtrado de jugadores según búsqueda
+  const filteredPlayers = players.filter(
+    (player) =>
+      player.username.toLowerCase().includes(search.toLowerCase()) ||
+      player.tag.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="database-page">
       <div className="blacklist-container" onSubmit={handleSubmit}>
@@ -87,6 +90,8 @@ export const Database = () => {
           id="search-banned-players-input"
           placeholder="Add a champion to your ban list"
           autoComplete="off"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
         <Link to="/players/create" className="add-player-link">
@@ -95,7 +100,7 @@ export const Database = () => {
       </div>
 
       <div className="blacklist">
-        {players.map((player) => (
+        {filteredPlayers.map((player) => (
           <PlayerCard
             key={player.id}
             player={player}

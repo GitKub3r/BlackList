@@ -1,4 +1,5 @@
 {
-    "type": "An unexpected error occurred",
-    "unknown": "An unexpected error occurred"
+  "empty": "Please fill in all required fields",
+  "type": "An unexpected error occurred",
+  "unknown": "An unexpected error occurred"
 }

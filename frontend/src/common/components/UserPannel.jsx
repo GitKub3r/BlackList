@@ -28,6 +28,8 @@ export const UserPannel = ({ data = {} }) => {
         password: password.value,
       };
 
+      console.log(object);
+
       const response = await fetch(`${apiURL}/users`, {
         method: "PUT",
         headers: {
@@ -64,18 +66,11 @@ export const UserPannel = ({ data = {} }) => {
     }
 
     if (nErrors > 0) {
-      showModal("All fields are required", "error");
+      showModal("All fields are required", "warning");
       error = true;
     } else {
       error = false;
     }
-  };
-
-  const showError = (element, message) => {
-    element.classList.add("error");
-    element.previousSibling.classList.add("error");
-    element.placeholder = message;
-    element.value = "";
   };
 
   return (
@@ -107,7 +102,6 @@ export const UserPannel = ({ data = {} }) => {
           name="change-password"
           id="change-password-input"
           className="user-pannel-input password"
-          value={data.password}
         />
 
         <button type="submit">Change Data</button>

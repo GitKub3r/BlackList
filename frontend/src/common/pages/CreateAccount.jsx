@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { LoginInput } from "../components/form/LoginInput";
 import { useNavigate } from "react-router";
 import jwtDecode from "jwt-decode";
-import { ErrorModal } from "../components/modals/ErrorModal";
+import { useModal } from "../auth/ModalContext";
 import { useAuth } from "../auth/AuthContext";
 
 export const CreateAccount = () => {
@@ -15,10 +15,8 @@ export const CreateAccount = () => {
   const token = localStorage.getItem("token");
 
   const [selectedType, setSelectedType] = useState(userTypes[0]);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-
   const { apiURL, user } = useAuth();
+  const { showModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,27 +29,32 @@ export const CreateAccount = () => {
     handleValidation(username, email, password);
 
     if (!error) {
-      const obj = {
+      const userObj = {
         username: username.value,
         email: email.value,
         password: password.value,
-        type: type,
+        type: type, // El backend espera "type"
       };
 
-      const response = await fetch(
-        `${apiURL}/players?hoster=${user.username}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify(playerObj),
-        }
-      );
+      const response = await fetch(`${apiURL}/users/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userObj),
+      });
 
       if (response.ok) {
-        navigate("/database");
+        showModal("Account created successfully", "success");
+        navigate("/users");
+      } else {
+        let msg = "Error creating account";
+        try {
+          const data = await response.json();
+          if (data && data.message) msg = data.message;
+        } catch {}
+        showModal(msg, "error");
       }
     }
   };
@@ -59,32 +62,16 @@ export const CreateAccount = () => {
   const handleValidation = (username, email, password) => {
     let nErrors = 0;
 
-    if (username.value === "") {
-      nErrors++;
-    }
-
-    if (email.value === "") {
-      nErrors++;
-    }
-
-    if (password.value === "") {
-      nErrors++;
-    }
+    if (username.value === "") nErrors++;
+    if (email.value === "") nErrors++;
+    if (password.value === "") nErrors++;
 
     if (nErrors > 0) {
       error = true;
-      showError(messages.empty);
+      showModal(messages.empty, "warning");
     } else {
       error = false;
     }
-  };
-
-  const showError = (message) => {
-    setErrorMessage(message);
-    setShowErrorModal(false);
-    setTimeout(() => {
-      setShowErrorModal(true);
-    }, 10);
   };
 
   const checkUserType = async () => {
@@ -112,11 +99,11 @@ export const CreateAccount = () => {
     } else {
       navigate("/login");
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
     <div className="create-account-page">
-      {showErrorModal && <ErrorModal message={errorMessage} />}
       <form onSubmit={handleSubmit} className="create-account-form">
         <div className="create-account-text-container">
           <h1>Create a new account</h1>
