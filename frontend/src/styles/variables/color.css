@@ -1,42 +1,44 @@
 :root {
-    --color-bg: #f5f5f5;
-    --color-bg-alt: #000000;
-    --color-text: #121212;
-    --color-text-alt: #ffffff;
-    --color-text-muted: #3a3a3a;
-    --color-text-muted-alt: #939393;
+  --color-bg: #f5f5f5;
+  --color-bg-alt: #000000;
+  --color-text: #121212;
+  --color-text-alt: #ffffff;
+  --color-text-muted: #3a3a3a;
+  --color-text-muted-alt: #939393;
 
-    --color-accent: #1a1a1a;
-    --color-accent-alt: #ffffff;
-    --color-danger: #d32f2f;
+  --color-accent: #1a1a1a;
+  --color-accent-alt: #ffffff;
+  --color-danger: #d32f2f;
 
-    --color-header: #000000;
-    --color-footer: #000000;
+  --color-header: #000000;
+  --color-footer: #000000;
 
-    --color-button: #121212;
-    --color-button-hover: #282828;
-    --color-button-disabled: #707070;
+  --color-button: #121212;
+  --color-button-hover: #282828;
+  --color-button-disabled: #707070;
 
-    --color-input-border: #565656;
-    --color-input-border-focus: #000000;
+  --color-input-border: #565656;
+  --color-input-border-focus: #000000;
 
-    --color-card: #eeeeee;
-    --color-card-alt: #2a2a2a;
+  --color-card: #eeeeee;
+  --color-card-alt: #2a2a2a;
 
-    --color-info-modal-bg: #a3d1ff;
-    --color-info-modal-alt: #4879aa;
+  --color-modal-bg: #2a2a2a;
 
-    --color-error-modal-bg: #ffa3a3;
-    --color-error-modal-alt: #aa4848;
+  --color-success-modal-bg: #268c3e;
+  --color-success-modal-alt: #4caf50;
+  --color-info-modal-bg: #6eb4ff;
+  --color-info-modal-alt: #2196f3;
+  --color-warning-modal-bg: #ffb74d;
+  --color-warning-modal-alt: #ff9800;
+  --color-error-modal-bg: #ff4d4d;
+  --color-error-modal-alt: #f44336;
 
-    --color-success-modal-bg: #baffa3;
-    --color-success-modal-alt: #62aa48;
+  --color-discord: #5f72b4;
+  --color-discord-hover: #506098;
 
-    --color-warning-modal-bg: #ffd1a3;
-    --color-warning-modal-alt: #aa8e48;
+  --color-link: #035bd7;
 
-    --color-discord: #5f72b4;
-    --color-discord-hover: #506098;
-
-    --color-link: #035bd7;
+  --color-list-section: #f5f5f5;
+  --color-list-section-hover: #e0e0e0;
 }

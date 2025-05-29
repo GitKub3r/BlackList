@@ -3,40 +3,28 @@ import { Link } from "react-router";
 import navlinks from "../json/header/nav-links.json";
 import { useAuth } from "../auth/AuthContext";
 import { useEffect, useState } from "react";
-import jwtDecode from "jwt-decode";
 
 export const Header = () => {
-  const { username, isAuthenticated } = useAuth();
-  const [user, setUser] = useState({});
+  const { user, isAuthenticated } = useAuth();
+
   const [links, setLinks] = useState(navlinks.unlogged.navLinks); // Default to unlogged navlinks
 
-  const handleUser = async (token, userID) => {
-    const response = await fetch(`http://localhost:8080/api/users/${userID}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    setUser(await response.json());
-  };
-
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token && isAuthenticated) {
-      setLinks(navlinks.logged.navLinks);
-      const userID = jwtDecode(token).sub;
-
-      handleUser(token, userID);
+    if (isAuthenticated && user) {
+      if (user.type === "ADMIN") {
+        setLinks(navlinks.admin.navLinks);
+      } else {
+        setLinks(navlinks.logged.navLinks);
+      }
     } else {
       setLinks(navlinks.unlogged.navLinks);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user]);
 
-  useEffect(() => {
-    if (user.type === "ADMIN") {
-      setLinks(navlinks.admin.navLinks);
-    }
-  }, [user]);
+  // Evita renderizar hasta que el usuario esté cargado si está autenticado
+  if (isAuthenticated && !user) {
+    return null;
+  }
 
   const [firstItem, ...restItems] = links;
 

@@ -1,86 +1,110 @@
 import "../../styles/pages/Database.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../auth/AuthContext";
 import { PlayerCard } from "../components/PlayerCard";
 import { BlackListInput } from "../components/BlackListInput";
 import messages from "../json/database/error-messages.json";
 
 export const Database = () => {
-    const navigate = useNavigate();
-    const token = localStorage.getItem("token");
-    const { isAuthenticated } = useAuth();
-    const [players, setPlayers] = useState([]);
-    let error = false;
+  const navigate = useNavigate();
+  const { isAuthenticated, token, apiURL } = useAuth();
+  const [players, setPlayers] = useState([]);
+  let error = false;
 
-    useEffect(() => {
-        const fetchPlayers = async () => {
-            if (token) {
-                const response = await fetch(
-                    "http://localhost:8080/api/players",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                        method: "GET",
-                    }
-                );
+  useEffect(() => {
+    const cleanExpiredPlayers = async () => {
+      if (isAuthenticated && token) {
+        await fetch(`${apiURL}/players/clean-expired`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+    };
 
-                const data = await response.json();
+    const fetchPlayers = async () => {
+      if (isAuthenticated && token) {
+        const response = await fetch(`${apiURL}/players`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: "GET",
+        });
 
-                if (response.status == 404) {
-                    console.error("Error fetching players:", data);
-                } else if (response.ok) {
-                    setPlayers(data);
-                }
-            } else {
-                navigate("/login");
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Fetched players:", data); // Debugging line
+
+          setPlayers(data);
+        } else {
+          // Maneja el error, por ejemplo:
+          setPlayers([]);
+          showModal("No players found or error fetching players", "error");
+        }
+      } else {
+        navigate("/login");
+      }
+    };
+
+    cleanExpiredPlayers().then(fetchPlayers);
+  }, [isAuthenticated, token, apiURL, navigate]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const search = document.getElementById("blacklist-search-input");
+
+    handleValidation(search);
+  };
+
+  const handleValidation = (input) => {
+    let nErrors = 0;
+
+    if (input.value === "") {
+      error = true;
+      nErrors++;
+    }
+
+    if (nErrors > 0) {
+      showError(input, messages.empty.search);
+    }
+  };
+
+  const showError = (input, message) => {
+    input.classList.add("error");
+    input.previousSibling.classList.add("error");
+    input.placeholder = message;
+    input.value = "";
+  };
+
+  return (
+    <div className="database-page">
+      <div className="blacklist-container" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="search-banned-players"
+          id="search-banned-players-input"
+          placeholder="Add a champion to your ban list"
+          autoComplete="off"
+        />
+
+        <Link to="/players/create" className="add-player-link">
+          <button>Add a Player</button>
+        </Link>
+      </div>
+
+      <div className="blacklist">
+        {players.map((player) => (
+          <PlayerCard
+            key={player.id}
+            player={player}
+            onDelete={(id) =>
+              setPlayers((prev) => prev.filter((p) => p.id !== id))
             }
-        };
-
-        fetchPlayers();
-    }, [isAuthenticated]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const search = document.getElementById("blacklist-search-input");
-
-        handleValidation(search);
-    };
-
-    const handleValidation = (input) => {
-        let nErrors = 0;
-
-        if (input.value === "") {
-            error = true;
-            nErrors++;
-        }
-
-        if (nErrors > 0) {
-            showError(input, messages.empty.search);
-        }
-    };
-
-    const showError = (input, message) => {
-        input.classList.add("error");
-        input.previousSibling.classList.add("error");
-        input.placeholder = message;
-        input.value = "";
-    };
-
-    return (
-        <div className="database-page">
-            <form className="blacklist-container" onSubmit={handleSubmit}>
-                <BlackListInput
-                    label="Search for a player"
-                    type="text"
-                    name="blacklist-search"
-                    id="blacklist-search-input"
-                />
-                {players.map((player) => (
-                    <PlayerCard key={player.id} player={player} />
-                ))}
-            </form>
-        </div>
-    );
+          />
+        ))}
+      </div>
+    </div>
+  );
 };

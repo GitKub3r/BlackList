@@ -3,179 +3,184 @@
 @import "./variables/fonts.css";
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    font-size: 16px;
-    font-weight: 500;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: var(--color-bg);
+  background-color: var(--color-bg);
 }
 
 div#root {
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 a {
-    text-decoration: none;
-    color: var(--color-link);
-    font-weight: bold;
+  text-decoration: none;
+  color: var(--color-link);
+  font-weight: bold;
 }
 
 a.hover-link {
-    position: relative;
+  position: relative;
 }
 
 a.hover-link::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: var(--color-text-alt);
-    visibility: hidden;
-    transform: scaleX(0);
-    transition: all 0.3s ease-in-out 0s;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-text-alt);
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.3s ease-in-out 0s;
 }
 
 a.hover-link:hover::after {
-    visibility: visible;
-    transform: scaleX(1);
+  visibility: visible;
+  transform: scaleX(1);
 }
 
 img {
-    width: var(--image-small);
-    object-fit: cover;
+  width: var(--image-small);
+  object-fit: cover;
 }
 
 button {
-    width: 100%;
-    padding: var(--size-small);
+  width: 100%;
+  padding: var(--size-small);
 
-    border: 1px solid var(--color-button);
-    border-radius: var(--border-radius-default);
+  border: 1px solid var(--color-button);
+  border-radius: var(--border-radius-default);
 
-    background-color: var(--color-button);
-    color: var(--color-text-alt);
+  background-color: var(--color-button);
+  color: var(--color-text-alt);
 
-    font-weight: bold;
+  font-weight: bold;
 
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
-        border-color 0.3s ease-in-out, filter 0.3s ease-in-out;
-    cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out, filter 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 button:hover {
-    filter: brightness(0.75);
+  filter: brightness(0.75);
 }
 
 button:disabled {
-    filter: brightness(0.25);
-    cursor: not-allowed;
+  filter: brightness(0.25);
+  cursor: not-allowed;
 }
 
 button:disabled:hover {
-    background-color: var(--color-button-disabled);
-    border-color: var(--color-button-disabled);
+  background-color: var(--color-button-disabled);
+  border-color: var(--color-button-disabled);
 }
 
 button:disabled img:hover {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 hr {
-    width: 100%;
-    border-color: var(--color-accent);
+  width: 100%;
+  border-color: var(--color-accent);
 }
 
 form {
-    width: 40%;
-    padding: var(--size-default);
-    margin-bottom: 6.5%;
+  width: 40%;
+  padding: var(--size-default);
+  margin-bottom: 6.5%;
 
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-accent);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-accent);
 
-    border-radius: var(--border-radius-medium);
+  border-radius: var(--border-radius-medium);
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    gap: var(--size-default);
+  gap: var(--size-default);
 }
 
 label {
-    font-size: calc(var(--size-default) - 0.125rem);
-    font-weight: 500;
+  font-size: calc(var(--size-default) - 0.125rem);
+  font-weight: 500;
 }
 
 label.error {
-    color: var(--color-danger);
+  color: var(--color-danger);
 }
 
 input {
-    width: 100%;
-    padding: var(--size-small);
+  width: 100%;
+  padding: var(--size-small);
 
-    border: 1px solid var(--color-input-border);
-    border-radius: var(--border-radius-default);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--border-radius-default);
 }
 
 input:focus {
-    outline: none;
-    border-color: var(--color-input-border-focus);
+  outline: none;
+  border-color: var(--color-input-border-focus);
 }
 
 input.error {
-    border-color: var(--color-danger);
+  border-color: var(--color-danger);
 }
 
 input.error::placeholder {
-    color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+.disabled-label {
+  text-decoration: line-through;
+  color: var(--color-text-muted-alt, #939393);
 }
 
 .fade-in {
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in-out forwards;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 .center-column {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .input-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--size-small);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-small);
 }
 
 .page {
-    min-height: 100dvh;
+  min-height: 100dvh;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

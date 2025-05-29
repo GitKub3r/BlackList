@@ -7,151 +7,151 @@ import { LoginInput } from "../components/form/LoginInput";
 import { useNavigate } from "react-router";
 import jwtDecode from "jwt-decode";
 import { ErrorModal } from "../components/modals/ErrorModal";
+import { useAuth } from "../auth/AuthContext";
 
 export const CreateAccount = () => {
-    const navigate = useNavigate();
-    let error = false;
-    const token = localStorage.getItem("token");
-    const userID = token ? jwtDecode(token).sub : null;
+  const navigate = useNavigate();
+  let error = false;
+  const token = localStorage.getItem("token");
 
-    const [selectedType, setSelectedType] = useState(userTypes[0]);
-    const [showErrorModal, setShowErrorModal] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+  const [selectedType, setSelectedType] = useState(userTypes[0]);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const { apiURL, user } = useAuth();
 
-        const username = document.getElementById("create-username-input");
-        const email = document.getElementById("create-email-input");
-        const password = document.getElementById("create-password-input");
-        const type = selectedType;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        handleValidation(username, email, password);
+    const username = document.getElementById("create-username-input");
+    const email = document.getElementById("create-email-input");
+    const password = document.getElementById("create-password-input");
+    const type = selectedType;
 
-        if (!error) {
-            const user = {
-                username: username.value,
-                email: email.value,
-                password: password.value,
-                type: type,
-            };
+    handleValidation(username, email, password);
 
-            const response = await fetch(
-                "http://localhost:8080/api/users/register",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(user),
-                }
-            );
+    if (!error) {
+      const obj = {
+        username: username.value,
+        email: email.value,
+        password: password.value,
+        type: type,
+      };
 
-            if (response.ok) {
-                navigate("/users");
-            }
+      const response = await fetch(
+        `${apiURL}/players?hoster=${user.username}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(playerObj),
         }
-    };
+      );
 
-    const handleValidation = (username, email, password) => {
-        let nErrors = 0;
+      if (response.ok) {
+        navigate("/database");
+      }
+    }
+  };
 
-        if (username.value === "") {
-            nErrors++;
-        }
+  const handleValidation = (username, email, password) => {
+    let nErrors = 0;
 
-        if (email.value === "") {
-            nErrors++;
-        }
+    if (username.value === "") {
+      nErrors++;
+    }
 
-        if (password.value === "") {
-            nErrors++;
-        }
+    if (email.value === "") {
+      nErrors++;
+    }
 
-        if (nErrors > 0) {
-            error = true;
-            showError(messages.empty);
-        } else {
-            error = false;
-        }
-    };
+    if (password.value === "") {
+      nErrors++;
+    }
 
-    const showError = (message) => {
-        setErrorMessage(message);
-        setShowErrorModal(false);
-        setTimeout(() => {
-            setShowErrorModal(true);
-        }, 10);
-    };
+    if (nErrors > 0) {
+      error = true;
+      showError(messages.empty);
+    } else {
+      error = false;
+    }
+  };
 
-    const checkUserType = async () => {
-        const response = await fetch(
-            `http://localhost:8080/api/users/${userID}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                method: "GET",
-            }
-        );
+  const showError = (message) => {
+    setErrorMessage(message);
+    setShowErrorModal(false);
+    setTimeout(() => {
+      setShowErrorModal(true);
+    }, 10);
+  };
 
-        const data = await response.json();
+  const checkUserType = async () => {
+    const response = await fetch(`${apiURL}/users/${user.id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      method: "GET",
+    });
 
-        if (response.status === 404 || response.status === 400) {
-            console.error("Error fetching user type:", data);
-        } else if (response.ok) {
-            if (data.type !== "ADMIN") {
-                navigate("/");
-            }
-        }
-    };
+    const data = await response.json();
 
-    useEffect(() => {
-        if (token) {
-            checkUserType();
-        } else {
-            navigate("/login");
-        }
-    }, []);
+    if (response.status === 404 || response.status === 400) {
+      console.error("Error fetching user type:", data);
+    } else if (response.ok) {
+      if (data.type !== "ADMIN") {
+        navigate("/");
+      }
+    }
+  };
 
-    return (
-        <div className="create-account-page">
-            {showErrorModal && <ErrorModal message={errorMessage} />}
-            <form onSubmit={handleSubmit} className="create-account-form">
-                <div className="create-account-text-container">
-                    <h1>Create a new account</h1>
-                    <hr />
-                </div>
+  useEffect(() => {
+    if (token) {
+      checkUserType();
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
-                <div className="create-account-inputs-container">
-                    <LoginInput
-                        label="Username"
-                        type="text"
-                        name="create-username"
-                        id="create-username-input"
-                    />
-                    <LoginInput
-                        label="Email"
-                        type="email"
-                        name="create-email"
-                        id="create-email-input"
-                    />
-                    <LoginInput
-                        label="Password"
-                        type="password"
-                        name="create-password"
-                        id="create-password-input"
-                    />
-
-                    <CustomSelect
-                        label="Account Type"
-                        options={userTypes}
-                        onChange={setSelectedType}
-                    />
-                </div>
-
-                <button>Create Account</button>
-            </form>
+  return (
+    <div className="create-account-page">
+      {showErrorModal && <ErrorModal message={errorMessage} />}
+      <form onSubmit={handleSubmit} className="create-account-form">
+        <div className="create-account-text-container">
+          <h1>Create a new account</h1>
+          <hr />
         </div>
-    );
+
+        <div className="create-account-inputs-container">
+          <LoginInput
+            label="Username"
+            type="text"
+            name="create-username"
+            id="create-username-input"
+          />
+          <LoginInput
+            label="Email"
+            type="email"
+            name="create-email"
+            id="create-email-input"
+          />
+          <LoginInput
+            label="Password"
+            type="password"
+            name="create-password"
+            id="create-password-input"
+          />
+
+          <CustomSelect
+            label="Account Type"
+            options={userTypes}
+            onChange={setSelectedType}
+          />
+        </div>
+
+        <button>Create Account</button>
+      </form>
+    </div>
+  );
 };

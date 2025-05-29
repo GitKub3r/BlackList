@@ -11,29 +11,38 @@ import { Champs } from "./common/pages/Champs";
 import { Users } from "./common/pages/Users";
 import { CreateAccount } from "./common/pages/CreateAccount";
 import { UpdateAccount } from "./common/pages/UpdateAccount";
+import { ProtectedRoute } from "./common/components/ProtectedRoute";
+import { CreatePlayer } from "./common/pages/CreatePlayer";
 
 function App() {
-    return (
-        <>
-            <Header />
+  return (
+    <>
+      <Header />
 
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<NotFound />} />
+      <Routes>
+        {/* Rutas públicas */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
 
-                <Route path="/about" element={<About />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/account" element={<Account />} />
-                <Route path="/database" element={<Database />} />
-                <Route path="/champions" element={<Champs />} />
-                <Route path="/users" element={<Users />} />
-                <Route path="/create-account" element={<CreateAccount />} />
-                <Route path="/update-account" element={<UpdateAccount />} />
-            </Routes>
+        {/* Rutas protegidas */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/account" element={<Account />} />
+          <Route path="/database" element={<Database />} />
+          <Route path="/champions" element={<Champs />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/create-account" element={<CreateAccount />} />
+          <Route path="/update-account" element={<UpdateAccount />} />
+          <Route path="/players/create" element={<CreatePlayer />} />
+        </Route>
 
-            <Footer />
-        </>
-    );
+        {/* Ruta para no encontradas */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
+      <Footer />
+    </>
+  );
 }
 
 export default App;

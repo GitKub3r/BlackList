@@ -1,4 +1,5 @@
 {
+  "success": "Champion added successfully",
   "empty": "Champion name is required",
   "duplicate": "Champion already exists"
 }

@@ -1,11 +1,9 @@
 import "../../styles/components/User-Card.css";
 import Image from "../../../public/assets/images/BlackList-Logo.png";
+import { useAuth } from "../auth/AuthContext";
 
 export const UserCard = ({ user }) => {
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
-  };
+  const { logout } = useAuth();
 
   return (
     <div className="user-card">
@@ -16,7 +14,7 @@ export const UserCard = ({ user }) => {
         <p>{user.type}</p>
       </div>
 
-      <button onClick={handleLogout}>Log out</button>
+      <button onClick={logout}>Log out</button>
     </div>
   );
 };

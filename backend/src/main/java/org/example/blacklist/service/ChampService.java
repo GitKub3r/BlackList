@@ -31,17 +31,16 @@ public class ChampService {
         return champRepository.findByName(championName);
     }
 
-    public HttpStatus addChampion(String champion) {
-        Champion champ = new Champion();
-        champ.setName(champion);
-
-        try {
-            champRepository.save(champ);
-        } catch (Exception e) {
-            return HttpStatus.BAD_REQUEST;
+    public Champion addChampionAndReturn(String name) {
+        // Comprueba si ya existe un campeón con ese nombre (ajusta según tu lógica)
+        Champion existing = champRepository.findByName(name);
+        if (existing != null) {
+            return null; // Ya existe, no lo añade
         }
-
-        return HttpStatus.OK;
+        Champion champion = new Champion();
+        champion.setName(name);
+        // ...setea otros campos si es necesario...
+        return champRepository.save(champion);
     }
 
     public void deleteChampion(Integer id) {

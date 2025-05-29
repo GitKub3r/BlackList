@@ -34,17 +34,16 @@ public class ChampController {
 
     @PostMapping("/{name}")
     public ResponseEntity<?> addChampion(@PathVariable String name) {
-        HttpStatus status = champService.addChampion(name);
-        return ResponseEntity.status(status).build();
+        Champion champion = champService.addChampionAndReturn(name);
+        if (champion == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"message\":\"Champion already exists\"}");
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(champion);
     }
 
     @PostMapping("/filter")
     public ResponseEntity<?> filterChampions(@RequestBody List<Integer> ids) {
         List<Champion> champions = champService.getChampionsById(ids);
-
-        if (champions.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
 
         return ResponseEntity.ok(champions);
     }
