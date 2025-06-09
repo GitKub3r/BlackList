@@ -28,6 +28,10 @@ public class PlayerService {
     }
 
     public Player createPlayerFromDTO(PlayerDTO dto) {
+        if (playerRepository.existsByUsernameAndTag(dto.username, dto.tag)) {
+            throw new IllegalArgumentException("A player with this username and tag already exists.");
+        }
+
         Player player = new Player();
         player.setUsername(dto.username);
         player.setTag(dto.tag);

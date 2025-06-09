@@ -60,6 +60,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", data.token);
       setToken(data.token);
       navigate("/");
+      showModal(messages.success + username, "success");
     } else {
       showModal(messages.invalid, "error");
       return false;

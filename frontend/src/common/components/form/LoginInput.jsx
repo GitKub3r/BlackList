@@ -10,6 +10,7 @@ export const LoginInput = ({
   autoComplete = true,
   disabled = false,
   handleChange = () => {},
+  required = false,
 }) => {
   const [inputValue, setInputValue] = useState(value);
 
@@ -22,6 +23,7 @@ export const LoginInput = ({
     <div className="input-container">
       <label htmlFor={id} className={disabled ? "disabled-label" : ""}>
         {label}
+        {required && <span style={{ color: "red", marginLeft: 4 }}>*</span>}
       </label>
       <input
         type={type}

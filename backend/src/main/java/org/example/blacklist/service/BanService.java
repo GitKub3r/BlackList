@@ -28,7 +28,7 @@ public class BanService {
     public HttpStatus addBan(Ban newBan) {
         Integer currentBanCount = banRepository.countByUserId(newBan.getUserId());
 
-        if (currentBanCount >= 10) {
+        if (currentBanCount > 10) {
             return HttpStatus.BAD_REQUEST;
         }
 

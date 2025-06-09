@@ -23,6 +23,8 @@ export const PlayerCard = ({ player, onDelete }) => {
       return `${diffDays} days remaining`;
     } else if (diffDays === 1) {
       return "1 day remaining";
+    } else if (diffDays === 0) {
+      return "Ban ends today";
     } else {
       return "UNBANNED";
     }

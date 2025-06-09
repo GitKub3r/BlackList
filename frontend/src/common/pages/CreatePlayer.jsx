@@ -17,6 +17,9 @@ export const CreatePlayer = () => {
   const [permanent, setPermanent] = useState(false);
 
   const DESCRIPTION_MAX = 50;
+  const [validationMessage, setValidationMessage] = useState(
+    "Username, tag and date are required."
+  );
 
   const handleDescriptionChange = (value) => {
     if (value.length <= DESCRIPTION_MAX) {
@@ -28,8 +31,25 @@ export const CreatePlayer = () => {
     e.preventDefault();
 
     if (!username.trim() || !tag.trim()) {
-      showModal("Username and tag are required", "error");
+      showModal(validationMessage, "warning");
       return;
+    }
+
+    // Validar fecha
+    if (!permanent) {
+      if (!duration) {
+        showModal("You must select a ban end date.", "warning");
+        return;
+      }
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Ignorar hora
+      const selectedDate = new Date(duration);
+      selectedDate.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        showModal("You cannot select a date prior to today.", "warning");
+        return;
+      }
     }
 
     const playerObj = {
@@ -82,6 +102,7 @@ export const CreatePlayer = () => {
             id="player-username-input"
             value={username}
             handleChange={setUsername}
+            required
           />
           <LoginInput
             label="Tag"
@@ -90,6 +111,7 @@ export const CreatePlayer = () => {
             id="player-tag-input"
             value={tag}
             handleChange={setTag}
+            required
           />
           <div className="create-player-description-container">
             <div className="create-player-description-label-row">
@@ -122,6 +144,7 @@ export const CreatePlayer = () => {
             value={permanent ? "" : duration}
             handleChange={setDuration}
             disabled={permanent}
+            required={!permanent}
           />
 
           <div className="create-player-permanent-container">
@@ -135,7 +158,10 @@ export const CreatePlayer = () => {
                   type="checkbox"
                   id="player-permanent-checkbox"
                   checked={permanent}
-                  onChange={(e) => setPermanent(e.target.checked)}
+                  onChange={(e) => {
+                    setPermanent(e.target.checked);
+                    setValidationMessage("Username and tag are required.");
+                  }}
                   className="custom-checkbox"
                 />
                 <span className="custom-checkbox-indicator"></span>

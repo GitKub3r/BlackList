@@ -49,21 +49,30 @@ export const ChampionBanPannel = () => {
       });
 
       if (response.status === 404) {
-        showModal(messages["not-found"], "error");
+        showModal(
+          `'${championNameInput.value}' ` + messages["not-found"],
+          "error"
+        );
         championNameInput.value = "";
       } else if (response.status === 400) {
         showModal(messages.limit, "warning");
         championNameInput.value = "";
       } else if (response.status === 409) {
-        showModal(messages.duplicate, "warning");
+        showModal(
+          `'${championNameInput.value}' ` + messages.duplicate,
+          "warning"
+        );
         championNameInput.value = "";
       } else if (response.status === 500) {
         showModal(messages.unknown, "error");
         championNameInput.value = "";
       } else if (response.status === 200) {
+        showModal(
+          `'${championNameInput.value}' ` + messages["add-success"],
+          "success"
+        );
         championNameInput.value = "";
         fetchBans();
-        showModal(messages["add-success"], "success");
       }
     }
   };
@@ -106,7 +115,7 @@ export const ChampionBanPannel = () => {
       );
       setBans(updatedBans);
       fetchBans();
-      showModal(messages["remove-success"], "success");
+      showModal(`'${championName}' ` + messages["remove-success"], "success");
     } else {
       showModal("Error deleting champion", "error");
     }

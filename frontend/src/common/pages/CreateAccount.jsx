@@ -116,6 +116,7 @@ export const CreateAccount = () => {
             type="text"
             name="create-username"
             id="create-username-input"
+            required
           />
           <LoginInput
             label="Email"
@@ -128,6 +129,7 @@ export const CreateAccount = () => {
             type="password"
             name="create-password"
             id="create-password-input"
+            required
           />
 
           <CustomSelect

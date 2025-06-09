@@ -5,6 +5,8 @@ import { useAuth } from "../auth/AuthContext";
 import { PlayerCard } from "../components/PlayerCard";
 import messages from "../json/database/error-messages.json";
 
+import missing from "../../../public/assets/images/league-missing-ping.webp";
+
 export const Database = () => {
   const navigate = useNavigate();
   const { isAuthenticated, token, apiURL } = useAuth();
@@ -100,15 +102,22 @@ export const Database = () => {
       </div>
 
       <div className="blacklist">
-        {filteredPlayers.map((player) => (
-          <PlayerCard
-            key={player.id}
-            player={player}
-            onDelete={(id) =>
-              setPlayers((prev) => prev.filter((p) => p.id !== id))
-            }
-          />
-        ))}
+        {filteredPlayers.length > 0 ? (
+          filteredPlayers.map((player) => (
+            <PlayerCard
+              key={player.id}
+              player={player}
+              onDelete={(id) =>
+                setPlayers((prev) => prev.filter((p) => p.id !== id))
+              }
+            />
+          ))
+        ) : (
+          <div className="no-champions-found">
+            <h1>Oops, no players were found...</h1>
+            <img src={missing} alt="league-of-legeds-missing-ping" />
+          </div>
+        )}
       </div>
     </div>
   );
