@@ -147,7 +147,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (22,'Aeryn','aerynlolcgm@gmail.com','$2a$10$FB1hXArROyTzQyGQhUEeMuSk4KYUpXpJEYsmSciH0HJdWYDDqQakW','HOSTER'),(23,'Keys','keyslolcgm@gmail.com','$2a$10$1uaWp7SUNbR7GJDzXrrB3.WxPsSktxuUJ78xL.6sKvi9rcY.ftHh.','HOSTER'),(24,'Spicy Ravioli','ravilolcgm@gmail.com','$2a$10$E4Avg5NbcZLOq9KKgs9Gp.MjFYbOYfWcmaOdpKcUi8aEmCNlYedWu','HOSTER'),(25,'Admin LOLCGM','adminlolcgm@gmail.com','$2a$10$79hZL3ZR4AdXDQmFF6Po4uuyxIoFr9f94XCi58Blf0XRgc77SVyrm','ADMIN');
+INSERT INTO `users` VALUES (25,'Admin LOLCGM','adminlolcgm@gmail.com','$2a$10$79hZL3ZR4AdXDQmFF6Po4uuyxIoFr9f94XCi58Blf0XRgc77SVyrm','ADMIN');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
